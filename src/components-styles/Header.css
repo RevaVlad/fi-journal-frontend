@@ -1,8 +1,9 @@
 .header {
-    width: 100vw; /* Full viewport width */
-    height: 8vh; /* Full viewport height, adjust as needed */
+    width: 100vw;
+    z-index: 1;
+    height: 8vh;
     display: flex;
-    position: fixed; /* Fixed at the top of the page */
+    position: fixed;
     top: 0;
     left: 0;
     background-color: #292864;

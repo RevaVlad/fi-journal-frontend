@@ -1,0 +1,8 @@
+.latest {
+    background-color: #ffffff;
+    border-radius: 15px;
+    width: max-content;
+    padding: 16px;
+    margin: 16px 0;
+    align-items: center;
+}

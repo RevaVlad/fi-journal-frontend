@@ -9,12 +9,18 @@ function App() {
     return (<main className="main">
         <Header/>
         <section className="latest">
-            <h2>Последние</h2>
             <RecentNotificationsContainer></RecentNotificationsContainer>
         </section>
         <section className="main-contentn">
             <input type="text"/>
             <button className="search-btn">Найти</button>
+            <SubjectsInfo></SubjectsInfo>
+            <SubjectsInfo></SubjectsInfo>
+            <SubjectsInfo></SubjectsInfo>
+            <SubjectsInfo></SubjectsInfo>
+            <SubjectsInfo></SubjectsInfo>
+            <SubjectsInfo></SubjectsInfo>
+            <SubjectsInfo></SubjectsInfo>
             <SubjectsInfo></SubjectsInfo>
         </section>
     </main>);

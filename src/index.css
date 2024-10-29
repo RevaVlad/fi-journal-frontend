@@ -1,39 +1,28 @@
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
 
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f2f2f5;
+#root {
+  background-color: #eff0f9;
 }
 
 .main {
   width: 90%;
   max-width: 1200px;
-  margin: 8vh auto 20px;
+  padding: 8vh 20px;
+  margin: auto;
 }
 
+/*
 .latest h2 {
   font-size: 1.2em;
   margin-bottom: 10px;
 }
 
-.latest-cards {
-  display: flex;
-  gap: .1em;
-  overflow-x: auto;
-}
-
 .number {
   font-size: 1.2em;
   color: #5b5aa5;
-}
-
-.label {
-  font-size: 0.7em;
-  color: #6f6d9b;
 }
 
 input[type="text"] {
@@ -104,3 +93,4 @@ input[type="text"] {
   font-size: 0.7em;
   color: #6f6d9b;
 }
+ */
