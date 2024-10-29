@@ -1,0 +1,33 @@
+.card {
+    padding: 10px;
+    text-align: center;
+    width: 90px;
+    border: none;
+    outline: none;
+}
+
+.date {
+    color: #6f6d9b;
+    font-size: 0.8em;
+}
+
+.value {
+    white-space: nowrap;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    padding: .2em;
+    font-size: clamp(.1em, 2em, 2em);
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    border-radius: 10px;
+    color: #ffffff;
+    background-color: #B586FA;
+}
+
+.subject {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 5px 0;
+}
