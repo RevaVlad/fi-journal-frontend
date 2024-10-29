@@ -1,14 +1,27 @@
+.container-header {
+    font-weight: 700;
+    font-size: 25px;
+    padding-left: 10px;
+    padding-top: 10px;
+}
+
 .container {
     display: flex;
-    gap: .1em;
-    overflow-x: auto;
-    box-sizing: border-box;
-    padding: 0;
+    overflow-x: scroll;
+    white-space: nowrap;
+    padding: 0 10px 10px;
+    gap: 16px;
     flex-direction: row;
 }
 
-.container-header {
-    font-weight: 700;
-    font-size: 1.5rem;
-    padding-left: 10px;
+@media (max-width: 768px) {
+    .container-header {
+        font-size: 16px;
+        padding-top: 0;
+    }
+
+    .container {
+        gap: 14px;
+        margin: 0 0;
+    }
 }

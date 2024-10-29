@@ -4,15 +4,14 @@
 }
 
 .card {
-    padding: 10px;
+    flex: 0 0 80px;
     text-align: left;
-    width: 90px;
     border: none;
     outline: none;
 }
 
 .date {
-    font-size: 1em;
+    font-size: 18px;
     color: #A0A0A0;
     font-weight: 600;
 }
@@ -21,21 +20,41 @@
     text-align: center;
     justify-content: center;
     align-items: center;
-    padding: .2em .2em;
-    font-size: 2.5em;
+    font-size: 40px;
+    padding: 6px 6px;
+    box-sizing: border-box;
     font-weight: 700;
     border-radius: 15px;
     color: #ffffff;
     background-color: #B586FA;
+    flex: none;
 }
 
 .subject {
-    font-size: .8em;
+    font-size: 12px;
     font-family: 'Inter', sans-serif;
     font-weight: 600;
     color: #A0A0A0;
     display: flex;
     flex-direction: column;
-    align-items: center;
     margin: 5px 0;
+}
+
+@media (max-width: 768px) {
+    .card{
+        flex: 0 0 50px;
+    }
+
+    .date {
+        font-size: 12px;
+    }
+
+    .subject {
+        font-size: 9px;
+    }
+
+    .value{
+        font-size: 20px;
+        padding: 10px 3px;
+    }
 }

@@ -3,17 +3,16 @@ import {Header} from "./components/Header";
 import 'bootstrap/dist/css/bootstrap.css'
 import {RecentNotificationsContainer} from "./components/RecentNotificationsContainer";
 import {SubjectsInfo} from "./components/SubjectsInfo";
+import {SearchBar} from "./components/SearchBar";
 
 function App() {
-    // const f = (item) => console.log(item);
     return (<main className="main">
         <Header/>
         <section className="latest">
             <RecentNotificationsContainer></RecentNotificationsContainer>
         </section>
         <section className="main-contentn">
-            <input type="text"/>
-            <button className="search-btn">Найти</button>
+            <SearchBar></SearchBar>
             <SubjectsInfo></SubjectsInfo>
             <SubjectsInfo></SubjectsInfo>
             <SubjectsInfo></SubjectsInfo>

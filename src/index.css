@@ -8,10 +8,24 @@
 }
 
 .main {
-  width: 90%;
-  max-width: 1200px;
+  width: 70%;
   padding: 8vh 20px;
   margin: auto;
+}
+
+.container {
+  background-color: #ffffff;
+  border-radius: 15px;
+  width: max-content;
+  padding: 16px;
+  margin: 16px 0;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .main {
+    width: 90%;
+  }
 }
 
 /*
