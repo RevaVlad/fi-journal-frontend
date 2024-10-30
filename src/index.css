@@ -1,7 +1,6 @@
-* {
-  margin: 0;
-  padding: 0;
-}
+@import "tailwindcss/base";
+@import "tailwindcss/components.css";
+@import "tailwindcss/utilities.css";
 
 #root {
   background-color: #eff0f9;
@@ -13,98 +12,8 @@
   margin: auto;
 }
 
-.container {
-  background-color: #ffffff;
-  border-radius: 15px;
-  width: max-content;
-  padding: 16px;
-  margin: 16px 0;
-  align-items: center;
-}
-
 @media (max-width: 768px) {
   .main {
     width: 90%;
   }
 }
-
-/*
-.latest h2 {
-  font-size: 1.2em;
-  margin-bottom: 10px;
-}
-
-.number {
-  font-size: 1.2em;
-  color: #5b5aa5;
-}
-
-input[type="text"] {
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-.search-btn {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  background-color: #6f6d9b;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.main-content {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.content-item {
-  background-color: white;
-  padding: 15px;
-  border-radius: 10px;
-}
-
-.content-item h3 {
-  font-size: 1.2em;
-  margin-bottom: 5px;
-}
-
-.view-btn {
-  padding: 8px 12px;
-  background-color: #6f6d9b;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.grades {
-  display: flex;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.grade {
-  background-color: #ececff;
-  padding: 10px;
-  border-radius: 10px;
-  text-align: center;
-  width: 60px;
-}
-
-.grade .number {
-  font-size: 1.2em;
-  color: #5b5aa5;
-}
-
-.grade .label {
-  font-size: 0.7em;
-  color: #6f6d9b;
-}
- */

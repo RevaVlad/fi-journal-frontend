@@ -1,27 +1,15 @@
-import './components-styles/App.css';
+import shared from './components-styles/shared.module.css';
 import {Header} from "./components/Header";
-import 'bootstrap/dist/css/bootstrap.css'
 import {RecentNotificationsContainer} from "./components/RecentNotificationsContainer";
-import {SubjectsInfo} from "./components/SubjectsInfo";
-import {SearchBar} from "./components/SearchBar";
+import {MainContent} from "./components/MainContent";
 
 function App() {
     return (<main className="main">
         <Header/>
-        <section className="latest">
+        <section className={shared.whiteContainer}>
             <RecentNotificationsContainer></RecentNotificationsContainer>
         </section>
-        <section className="main-contentn">
-            <SearchBar></SearchBar>
-            <SubjectsInfo></SubjectsInfo>
-            <SubjectsInfo></SubjectsInfo>
-            <SubjectsInfo></SubjectsInfo>
-            <SubjectsInfo></SubjectsInfo>
-            <SubjectsInfo></SubjectsInfo>
-            <SubjectsInfo></SubjectsInfo>
-            <SubjectsInfo></SubjectsInfo>
-            <SubjectsInfo></SubjectsInfo>
-        </section>
+        <MainContent/>
     </main>);
 }
 

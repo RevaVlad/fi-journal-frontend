@@ -1,11 +1,17 @@
-import '../components-styles/RecentNotification.css'
+import '../components-styles/RecentNotifications.module.css'
+import {SearchBar} from "./SearchBar";
+import {SubjectsInfo} from "./SubjectsInfo";
 
 export function MainContent(props) {
-    return <div className="card">
-        <span className="date">Сегодня</span>
-        <span className="value">0.1</span>
-        <div className="subject">
-            <span className="label">Мат. Анализ</span>
-        </div>
-    </div>
+    return <section className="main-contentn">
+                <SearchBar></SearchBar>
+                <SubjectsInfo></SubjectsInfo>
+                <SubjectsInfo></SubjectsInfo>
+                <SubjectsInfo></SubjectsInfo>
+                <SubjectsInfo></SubjectsInfo>
+                <SubjectsInfo></SubjectsInfo>
+                <SubjectsInfo></SubjectsInfo>
+                <SubjectsInfo></SubjectsInfo>
+                <SubjectsInfo></SubjectsInfo>
+    </section>
 }

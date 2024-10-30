@@ -1,7 +1,5 @@
-import '../components-styles/Header.css'
+import styles from '../components-styles/Header.module.css'
 
 export function Header(props) {
-    return <div className="header">
-        <h3>φ.Журнал</h3>
-    </div>
+    return <span className={styles.header}>φ.Журнал</span>
 }

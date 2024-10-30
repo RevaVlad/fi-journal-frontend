@@ -4,10 +4,11 @@
 }
 
 .card {
+    display: flex;
     flex: 0 0 80px;
+    flex-direction: column;
     text-align: left;
-    border: none;
-    outline: none;
+    margin: 5px 0;
 }
 
 .date {
@@ -27,7 +28,6 @@
     border-radius: 15px;
     color: #ffffff;
     background-color: #B586FA;
-    flex: none;
 }
 
 .subject {
@@ -37,9 +37,9 @@
     color: #A0A0A0;
     display: flex;
     flex-direction: column;
-    margin: 5px 0;
 }
 
+/*
 @media (max-width: 768px) {
     .card{
         flex: 0 0 50px;
@@ -58,3 +58,4 @@
         padding: 10px 3px;
     }
 }
+*/
