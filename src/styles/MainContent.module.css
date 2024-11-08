@@ -1,0 +1,29 @@
+.subject {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+}
+
+.subjectInfo {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    align-items: flex-start;
+    width: 400px;
+    height: 187px;
+}
+
+.gradesContainer {
+    display: flex;
+    overflow-x: auto;
+    flex-direction: row;
+    width: 100%;
+    gap: 16px;
+    padding-left: 28px;
+}
+
+.gradeCard {
+    display: flex;
+    flex-direction: column;
+    padding-top: 5px;
+}
