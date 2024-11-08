@@ -4,20 +4,31 @@ import Collapsible from 'react-collapsible';
 import {SearchBar} from "./SearchBar";
 import {useState} from "react";
 import {isMobile} from "react-device-detect";
-
-const subjectColors = [
-    "#FE25A7",
-    "#B586FA",
-    "#8680F8",
-    "#FBB4FE"
-]
+import {getSubjectColor} from "../utils";
+import "../backendRequests"
+import {
+    getGroupIdsOfUser,
+    getGroupName,
+    getTableName,
+    getTableRecentUpdates,
+    getTablesIdsOfGroup
+} from "../backendRequests";
 
 
 export function MainContent(props) {
+    const [searchItem, setSearchItem] = useState("");
+
+    const handleInputChange = (e) => {
+        const searchTerm = e.target.value;
+        setSearchItem(searchTerm)
+    }
+
     return <section className="main-content">
-        <SearchBar data={props.data}/>
-        {Object.keys(props.data["groups"]).map((id) => (props.data["groups"][id])).map((groupData, index) => (
-            <Group name={groupData["groupName"]} tables={groupData["tables"]} key={index}/>
+        <SearchBar searchItem={searchItem} handleInputChange={handleInputChange}/>
+        {getGroupIdsOfUser(props.username).map(id => (
+            <Group name={getGroupName(id)}
+                   tables={getTablesIdsOfGroup(id)}
+                   key={id}/>
         ))}
     </section>
 }
@@ -34,33 +45,39 @@ function Group(props) {
             </button>
         </span>
         <Collapsible trigger="" open={open}>
-            {Object
-                .keys(props.tables)
-                .map((id) => props.tables[id])
-                .map((tableData, index) => (
-                    <Subject name={tableData["name"]} recentUpdates={tableData["recentUpdates"]} key={index}/>
+            {props.tables
+                .map(id => (
+                    <Subject groupName={props.name}
+                             name={getTableName(id)}
+                             recentUpdates={getTableRecentUpdates(id)}
+                             key={id}/>
             ))}
         </Collapsible>
     </div>
 }
 
 function Subject(props) {
-    let lastUpdate = props.recentUpdates[0][0]
+    let lastUpdate = props.recentUpdates.length > 0 ? props.recentUpdates[0][0] : null
+    let subjectColor = getSubjectColor(props.groupName, props.name)
     return <div className={styles.subject}>
         <SubjectInfo lastUpdate={lastUpdate} name={props.name}/>
-        {isMobile || <Grades recentUpdates={props.recentUpdates} color={randomChoice(subjectColors)}/>}
+        {isMobile || <Grades recentUpdates={props.recentUpdates} color={subjectColor}/>}
     </div>
 }
 
 function SubjectInfo(props){
-    let date = props.lastUpdate.toLocaleString('ru', {
-        day: 'numeric',
-        month: 'long'
-    });
+    let date;
+    if (props.lastUpdate != null){
+        date = props.lastUpdate.toLocaleString('ru', {
+            day: 'numeric',
+            month: 'long'
+        });
+    }
+
     return <div className={shared.whiteContainer + " " + styles.subjectInfo}>
         <div className="mb-[20px]">
             <span className={shared.importantLabel + " text-[35px]"}>{props.name}</span>
-            <span className={shared.clarification}>Последнее обновление: {date}</span>
+            {(props.lastUpdate != null) ? <span className={shared.clarification}>Последнее обновление: {date}</span> : null}
         </div>
         <button className={shared.buttonDefault + " h-[41px] w-[201px] mt-auto mb-0"}>Посмотреть</button>
     </div>
@@ -100,8 +117,4 @@ function Grade(props) {
             <span className={shared.smallerClarification}>{date}</span>
         </div>
     </div>
-}
-
-function randomChoice(array) {
-    return array[Math.floor(Math.random() * array.length)];
 }
