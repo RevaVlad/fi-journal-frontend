@@ -1,16 +1,20 @@
-import shared from './styles/shared.module.css';
 import {Header} from "./components/Header";
-import {RecentNotificationsContainer} from "./components/RecentNotification";
-import {MainContent} from "./components/MainContent"
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {Login} from "./components/Login";
+import {Student} from "./components/Student";
+
 
 function App() {
-    return (<main className="main">
-        <Header/>
-        <section className={shared.whiteContainer}>
-            <RecentNotificationsContainer username={"Владислав Рева"}/>
-        </section>
-        <MainContent username={"Владислав Рева"}/>
-    </main>);
+    return <>
+        <Header />
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<Student />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/profile" element={<Login />} />
+            </Routes>
+        </BrowserRouter>
+    </>
 }
 
 export default App;

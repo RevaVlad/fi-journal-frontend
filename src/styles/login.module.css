@@ -1,0 +1,24 @@
+.inputField {
+    width: 100%;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 10px;
+    background-color: #f0f0f0;
+    font-size: 20px;
+    color: #333;
+    outline: none;
+}
+
+.clarification {
+    font-size: 15px;
+    color: #A0A0A0;
+    font-weight: 600;
+}
+
+.registerLink {
+    font-size: 15px;
+    font-weight: 700;
+    color: #888888;
+    text-decoration: underline;
+    cursor: pointer;
+}

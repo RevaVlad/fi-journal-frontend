@@ -4,17 +4,21 @@
 
 #root {
   background-color: #eff0f9;
+  font-family: 'Inter', sans-serif;
+  white-space: nowrap;
   height: 100%;
 }
 
-.main {
-  width: 70%;
+main {
+  width: 65%;
   padding: 8vh 0;
   margin: auto;
-  background-color: #eff0f9;
 }
 
-.body {
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
   background-color: #eff0f9;
 }
 
