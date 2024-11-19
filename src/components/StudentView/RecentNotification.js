@@ -1,6 +1,6 @@
-import styles from '../styles/RecentNotifications.module.css'
-import shared from '../styles/shared.module.css'
-import {checkIfDatesEqual, getSubjectColor} from "../utils";
+import styles from '../../styles/RecentNotifications.module.css'
+import shared from '../../styles/shared.module.css'
+import {checkIfDatesEqual, getSubjectColor} from "../../utils";
 
 export function RecentNotificationsContainer(props) {
     let allRecentUpdates = []
@@ -11,12 +11,12 @@ export function RecentNotificationsContainer(props) {
                                                                                subject={table.name}
                                                                                updateInfo={update}/>)
 
-    return <>
+    return <div className={shared.whiteContainer}>
         <span className={shared.importantLabel + " text-[30px]"}>Последнeе</span>
         <div className="flex overflow-x-auto whitespace-nowrap gap-4 flex-row pt-0 pb-2.5">
             {allRecentUpdates.slice(0, 10)}
         </div>
-    </>
+    </div>
 }
 
 export function RecentNotification(props) {

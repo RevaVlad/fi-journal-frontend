@@ -8,10 +8,10 @@ import {
 } from "./backendRequests";
 
 export class UserData {
-    constructor(username) {
-        this.username = username;
-        this.email = getUserEmail(username)
-        this.groups = getGroupIdsOfUser(username).map(id => Group.fromId(id))
+    constructor(userId) {
+        this.userId = userId;
+        this.email = getUserEmail(userId)
+        this.groups = getGroupIdsOfUser(userId).map(id => Group.fromId(id))
     }
 }
 

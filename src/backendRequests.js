@@ -1,11 +1,20 @@
-export function getGroupIdsOfUser(username){
-    if (username === "Владислав Рева"){
+import {BackendServerAddress} from "./components/configuration";
+
+const testUserId = "43778592yhj13hjir32ofh0234u32h"
+
+export function getUserId(username, password){
+    if (username === "vladreva57@gmail.com" && password === "123")
+        return testUserId
+}
+
+export function getGroupIdsOfUser(userId){
+    if (userId === testUserId){
         return ["id-jfkldsajfls", "id-nbxnvx"]
     }
 }
 
-export function getUserEmail(username){
-    if (username === "Владислав Рева"){
+export function getUserEmail(userId){
+    if (userId === testUserId){
         return "vladreva57@gmail.com"
     }
 }
@@ -77,6 +86,17 @@ export function getTableRecentUpdates(tableId){
             [new Date("2024-10-10 19:22"), ["15.10", 1], ["18.10", .5]],
             [new Date("2024-09-12 19:21"), ["18.09", 0.1]],
             [new Date("2023-11-07 19:20"), ["19.09", 0.1]],
+            [new Date("2023-11-07 19:20"), ["19.09", 0.1]],
+            [new Date("2023-11-07 19:20"), ["19.09", 0.1]],
+            [new Date("2023-11-07 19:20"), ["19.09", 0.1]],
+            [new Date("2023-11-07 19:20"), ["19.09", 0.1]],
+            [new Date("2023-11-07 19:20"), ["19.09", 0.1]],
+            [new Date("2023-11-07 19:20"), ["19.09", 0.1]],
+            [new Date("2023-11-07 19:20"), ["19.09", 0.1]],
+            [new Date("2023-11-07 19:20"), ["19.09", 0.1]],
+            [new Date("2023-11-07 19:20"), ["19.09", 0.1]],
+            [new Date("2023-11-07 19:20"), ["19.09", 0.1]],
+            [new Date("2023-11-07 19:20"), ["19.09", 0.1]],
             [new Date("2024-09-12 19:19"), ["15.09", 0.1]]
         ]
     }
@@ -98,3 +118,15 @@ export function getTableRecentUpdates(tableId){
         ]
     }
 }
+
+/*
+function makeRequest(additionalAddress, data, type){
+    return fetch(BackendServerAddress + additionalAddress, {
+        method: type,
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    }).then((response) => response.json())
+}
+ */

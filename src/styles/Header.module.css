@@ -2,17 +2,18 @@
     display: flex;
     position: fixed;
     width: 100vw;
-    height: 8vh;
+    height: max(8vh, 50px);
     z-index: 1;
     top: 0;
     left: 0;
-    background-color: #292864;
+    background-color: #0E0A35;
 }
 
 .companyName {
     text-align: left;
     color: white;
     font-size: 35px;
+    font-weight: 700;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);

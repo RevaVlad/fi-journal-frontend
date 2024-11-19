@@ -62,6 +62,11 @@
     justify-content: center;
 }
 
+.horizontalContainer{
+    display: flex;
+    flex-direction: row;
+}
+
 .centerOfScreen {
     position: absolute;
     top: 50%;

@@ -9,21 +9,87 @@
     flex-direction: column;
     text-align: left;
     align-items: flex-start;
-    width: 400px;
+    min-width: 300px;
     height: 187px;
 }
 
-.gradesContainer {
-    display: flex;
+.tableDiv {
     overflow-x: auto;
-    flex-direction: row;
-    width: 100%;
-    gap: 16px;
-    padding-left: 28px;
 }
 
-.gradeCard {
+.table {
+    width: 100%;
+    display: table-row-group;
+    box-sizing: border-box;
+    font-family: "Inter", sans-serif;
+    text-align: center;
+}
+
+.tr {
+}
+
+
+.table .th {
+    font-size: 25px;
+    padding: 5px;
+    border-right: 1px solid #A0A0A0;
+    color: #A0A0A0;
+    background-color: white;
+}
+
+.table .th:first-child {
+    border-radius: 5px 0 0 0;
+}
+
+.table .th:last-child{
+    border-right: 0;
+    border-radius: 0 5px 0 0;
+}
+
+
+.table .td {
+    border-right: 1px solid #A0A0A0;
+    font-size: 30px;
+    padding: 5px;
+    color: #ffffff;
+    font-weight: 700;
+}
+
+.table .td:last-child{
+    border-right: 0;
+    border-radius: 0 0 5px 0;
+}
+
+.table .td:first-child{
+    border-radius: 0 0 0 5px;
+}
+
+.tableLabel {
+    width: 100%;
+    font-size: 30px;
+    font-weight: 700;
+    padding: 5px 5px 5px 20px;
+    margin: 0;
+}
+
+.tableAndTableLabel {
     display: flex;
     flex-direction: column;
-    padding-top: 5px;
+    width: 100%;
+    gap: 24px;
+    margin: 16px 0;
+    overflow: hidden;
+    justify-content: space-between;
+}
+
+.tablePlaceHolder {
+    margin: 0;
+    height: 100%;
+    font-family: "Inter", sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: #A0A0A0;
+    display: flex;
+    align-items: center;
+    overflow: auto;
 }
