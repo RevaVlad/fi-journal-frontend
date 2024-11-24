@@ -1,132 +1,189 @@
-import {BackendServerAddress} from "./components/configuration";
+// import {BackendServerAddress} from "./components/configuration";
+const testUserId = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjljZmZlZGI3LWVlNzAtNGI3MS05M2IwLTFjODgxZTI4NTI0NCIsIm5hbWUiOiJ2IHYiLCJleHAiOjE3MzIxNzU4MTF9.DTboaltKUWRnU1fodeP5jCrj9cxoBO6dqHskIu6_9Fc"
 
-const testUserId = "43778592yhj13hjir32ofh0234u32h"
-
-export function getUserId(username, password){
-    if (username === "vladreva57@gmail.com" && password === "123")
-        return testUserId
-}
-
-export function getGroupIdsOfUser(userId){
-    if (userId === testUserId){
-        return ["id-jfkldsajfls", "id-nbxnvx"]
-    }
-}
-
-export function getUserEmail(userId){
-    if (userId === testUserId){
-        return "vladreva57@gmail.com"
-    }
-}
-
-export function getGroupName(groupId){
-    if (groupId === "id-jfkldsajfls"){
-        return "ФТ-202"
-    }
-    else if (groupId === "id-nbxnvx"){
-        return "ФТ-202-2"
-    }
-}
-
-export function getTablesIdsOfGroup(groupId){
-    if (groupId === "id-jfkldsajfls"){
-        return ["id-aaaaaaa", "id-aaaaaab", "id-aaaxaab"]
-    }
-    else if (groupId === "id-nbxnvx"){
-        return ["id-bbbbbb", "id-bbbbbbc"]
-    }
-}
-
-export function getTableName(tableId){
-    if (tableId === "id-aaaaaaa"){
-        return "Матан"
-    }
-    else if (tableId === "id-aaaaaab"){
-        return "Дискретка"
-    }
-    else if (tableId === "id-aaaxaab"){
-        return "Тервер >:("
-    }
-    else if (tableId === "id-bbbbbb"){
-        return "Матан"
-    }
-    else if (tableId === "id-bbbbbbc"){
-        return "Дискретка"
-    }
-}
-
-export function getTableLink(tableId){
-    if (tableId === "id-aaaaaaa"){
-        return "https://docs.google.com/spreadsheets/d/1PG56U0R1jJY_qob0Kjy0gZ1AzfcB49Y01V7vM-AvK_8/edit?gid=0#gid=0"
-    }
-    else if (tableId === "id-aaaaaab"){
-        return ""
-    }
-    else if (tableId === "id-aaaxaab"){
-        return ""
-    }
-    else if (tableId === "id-bbbbbb"){
-        return ""
-    }
-    else if (tableId === "id-bbbbbbc"){
-        return ""
-    }
-
-}
-
-export function getTableRecentUpdates(tableId){
-    if (tableId === "id-aaaaaaa"){
-        return [
-            [new Date("2024-11-09 19:22"), ["12.09", 1], ["14.09", 2]],
-            [new Date("2024-11-09 13:50"), ["13.09", .1]]
-        ]
-    }
-    else if (tableId === "id-aaaaaab"){
-        return [
-            [new Date("2024-10-10 19:22"), ["15.10", 1], ["18.10", .5]],
-            [new Date("2024-09-12 19:21"), ["18.09", 0.1]],
-            [new Date("2023-11-07 19:20"), ["19.09", 0.1]],
-            [new Date("2023-11-07 19:20"), ["19.09", 0.1]],
-            [new Date("2023-11-07 19:20"), ["19.09", 0.1]],
-            [new Date("2023-11-07 19:20"), ["19.09", 0.1]],
-            [new Date("2023-11-07 19:20"), ["19.09", 0.1]],
-            [new Date("2023-11-07 19:20"), ["19.09", 0.1]],
-            [new Date("2023-11-07 19:20"), ["19.09", 0.1]],
-            [new Date("2023-11-07 19:20"), ["19.09", 0.1]],
-            [new Date("2023-11-07 19:20"), ["19.09", 0.1]],
-            [new Date("2023-11-07 19:20"), ["19.09", 0.1]],
-            [new Date("2023-11-07 19:20"), ["19.09", 0.1]],
-            [new Date("2023-11-07 19:20"), ["19.09", 0.1]],
-            [new Date("2024-09-12 19:19"), ["15.09", 0.1]]
-        ]
-    }
-    else if (tableId === "id-aaaxaab"){
-        return []
-    }
-    else if (tableId === "id-bbbbbb"){
-        return [
-            [new Date("2024-09-12 19:22"), [ "12.09", 1], ["14.09", 2]],
-            [new Date("2024-08-24 13:50"), ["13.09", 0.1]]
-        ]
-    }
-    else if (tableId === "id-bbbbbbc"){
-        return [
-            [new Date("2024-09-12 19:22"), ["15.10", 1], ["18.10", .5]],
-            [new Date("2024-11-09 19:21"), ["18.09", 0.1]],
-            [new Date("2024-09-12 19:20"), ["19.09", 0.1]],
-            [new Date("2024-09-12 19:19"), ["15.09", 0.1]]
-        ]
-    }
-}
-
-/*
-function makeRequest(additionalAddress, data, type){
-    return fetch(BackendServerAddress + additionalAddress, {
-        method: type,
+export async function createUser(name, surname, email, password) {
+    console.log("Creating new user request...")
+    return await fetch('http://localhost/api/Users/register', {
+        method: 'POST',
         headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
-    }).then((response) => response.json())
+        body: JSON.stringify({
+            'name': `${surname} ${name}`,
+            'password': password,
+            'email': email
+        })
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then((data) => {
+            return data['id'];
+        })
+        .catch((error) => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
 }
- */
+
+export async function login(email, password){
+    console.log("Logging in request...")
+    return await fetch('http://localhost/api/Users/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            'email': email,
+            'password': password,
+        })
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.text();
+        })
+        .then((data) => {
+            console.log(`User successfully logged in ${email} with token ${data}`)
+            return data;
+        })
+        .catch((error) => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
+}
+
+export async function getUserInfo() {
+    console.log("Getting user info request...")
+    return await fetch('http://localhost/api/Users/profile', {
+        method: 'GET',
+        credentials: "include",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then((data) => {
+            return data;
+        })
+        .catch((error) => {
+            console.error('There was a problem with the fetch operation, while loading user info:', error);
+        });
+}
+
+export async function getGroupInfo(id) {
+    console.log("Getting group info request...")
+    return await fetch('http://localhost/api/Groups/' + id, {
+        method: 'GET',
+        credentials: "include",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then((data) => {
+            return data;
+        })
+        .catch((error) => {
+            console.error('There was a problem with the fetch operation, while loading group info:', error);
+        });
+}
+
+export async function getTableInfo(id){
+    console.log("Getting table info request...")
+    return await fetch('http://localhost/api/Tables/' + id, {
+        method: 'GET',
+        credentials: "include",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then((data) => {
+            return data;
+        })
+        .catch((error) => {
+            console.error('There was a problem with the fetch operation, while loading table info:', error);
+        });
+}
+
+export async function getUserPointInTable(userId, tableId){
+    console.log("Getting user points request...")
+    return await fetch('http://localhost/api/Tables/' + tableId + '/userPoints/' + userId, {
+        method: 'GET',
+        credentials: "include",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then((data) => {
+            return Object.entries(data).map(([key, value]) => [key, value])
+        })
+        .catch((error) => {
+            console.error('There was a problem with the fetch operation, while loading table info:', error);
+        });
+}
+
+export async function patchUser(id, newEmail, newPassword) {
+    console.log("Patching user info request...")
+    let query = '?'
+
+    if (newEmail){
+        query += `email=${encodeURIComponent(newEmail)}`
+    }
+    if (newPassword){
+        query += `&password=${encodeURIComponent(newPassword)}`
+    }
+
+    return await fetch('http://localhost/api/Users/' + id + query, {
+        method: 'PATCH',
+        credentials: "include"
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then((data) => {
+            return data;
+        })
+        .catch((error) => {
+            console.error('There was a problem with the fetch operation, while loading table info:', error);
+        });
+}
+
+// export function changeUserName(userId){
+//
+// }
+//
+// export function changeUserPassword(userId){
+//
+// }
+//
+// export function changeUserEmail(userId){
+//
+// }

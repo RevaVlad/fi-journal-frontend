@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {SearchBar} from "./SearchBar";
 import shared from "../../styles/shared.module.css";
 import Collapsible from "react-collapsible";
@@ -9,86 +9,94 @@ import {Link} from "react-router-dom";
 
 export function MainContent(props) {
     const [searchItem, setSearchItem] = useState("");
-    const [groups, setGroups] = useState(props.userData.groups)
+    const groups = props.userData.groups;
 
     const handleInputChange = (e) => {
         const searchTerm = e.target.value;
         setSearchItem(searchTerm)
-
-        if (searchTerm !== "") {
-            setGroups(props.userData.groups.map(group =>
-                group.withTables(group.tables.filter(table =>
-                    table.name.toLowerCase().includes(searchTerm.toLowerCase())))))
-        }
-        else{
-            setGroups(props.userData.groups)
-        }
     }
 
     return <section className="main-content">
         <SearchBar searchItem={searchItem} handleInputChange={handleInputChange}/>
         {groups.map((group) => (
-            <Group group={group} key={group.id}/>
+            <GroupWithFilteredTables group={group} key={group.id} userId={props.userData.id} searchTerm={searchItem}/>
         ))}
     </section>
 }
 
+function GroupWithFilteredTables(props) {
+    const [tables, _] = useState(props.group.tables);
+
+    const filteredTables = (props.searchTerm.length > 0) ?
+        tables.filter(table => table.name.toLowerCase().includes(props.searchTerm.toLowerCase()))
+        : tables
+    return <Group group={props.group.withTables(filteredTables)} userId={props.userId}/>
+}
+
 function Group(props) {
     const [open, setOpen] = useState(true);
+
     const handleOpen = () => {setOpen(!open)}
-    let group = props.group
+
+    const group = props.group
+    const tables = props.group.tables
 
     return <div>
-        <span className={shared.importantLabel + " text-[35px] m-0"}>
+        <span className={shared.importantLabel + " text-[35px] m-0"}
+              style={{color: tables.length > 0 ? "" : "#A0A0A0"}}>
             {group.name}
             <button onClick={handleOpen}>{open ? "▼" : "▶"}
             </button>
         </span>
         <Collapsible trigger="" open={open}>
-            {group.tables.map(
-                table => (<Subject groupName={group.name}
+            {tables.map(
+                table => (<Table groupName={group.name}
                                    table={table}
-                                   key={table.id}/>
+                                   key={table.id}
+                                   userId={props.userId}/>
                 ))}
         </Collapsible>
     </div>
 }
 
-function Subject(props) {
+function Table(props) {
     let table = props.table
-    let lastUpdate = table.recentUpdates.length > 0 ? table.recentUpdates[0][0] : null
     let subjectColor = getSubjectColor(props.groupName, table.name)
     return <div className={styles.subject}>
-        <SubjectInfo lastUpdate={lastUpdate} name={table.name} tableLink={table.link}/>
+        <TableInfo name={table.name} tableLink={table.link}/>
         {useMediaQuery({query: '(max-width: 500px)'}) ||
             <div className={styles.tableAndTableLabel} style={{}}>
                 <span className={shared.whiteContainer + " " + styles.tableLabel}>Ваши баллы:</span>
-                <Grades table={table} color={subjectColor}/>
+                <Grades table={table} color={subjectColor} userId={props.userId} key={table.id}/>
             </div>
         }
     </div>
 }
 
-function SubjectInfo(props){
-    let date;
-    if (props.lastUpdate != null){
-        date = props.lastUpdate.toLocaleString('ru', {
-            day: 'numeric',
-            month: 'long'
-        });
-    }
-
+function TableInfo(props){
     return <div className={shared.whiteContainer + " " + styles.subjectInfo}>
-        <div style={{marginBottom: "20px"}}>
-            <span className={shared.importantLabel} style={{fontSize: "35px"}}>{props.name}</span>
-            {(props.lastUpdate != null) ? <span className={shared.clarification}>Последнее обновление: {date}</span> : null}
-        </div>
-        <Link to={props.tableLink} className={shared.buttonDefault + " h-[41px] w-[201px] mt-auto mb-0"}>Посмотреть</Link>
+        <span className={shared.importantLabel} style={{fontSize: "35px"}}>{props.name}</span>
+        <Link to={props.tableLink} className={shared.buttonDefault + " h-[41px] w-[201px] mt-auto mb-0"}
+              target="_blank" rel="noopener noreferrer">
+            Посмотреть</Link>
     </div>
 }
 
 function Grades(props) {
-    if (props.table.recentUpdates.length === 0) {
+    const table = props.table
+    const [points, setPoints] = useState(table.points);
+    useEffect(() => {
+        const temp = async () => {
+            if (!table.isInitialized){
+                await table.initializeUserPoints(props.userId)
+                setPoints(table.points)
+            }
+        }
+
+        temp()
+    })
+
+    if (points.length === 0){
         return <PlaceHolder/>
     }
 
@@ -96,15 +104,15 @@ function Grades(props) {
         <table className={styles.table}>
             <thead>
                 <tr className={styles.tr}>
-                    {props.table.recentUpdates.map(updateInfo => {
-                        return <th className={styles.th}>{updateInfo.column}</th>
+                    {points.map(([column, value]) => {
+                        return <th className={styles.th} key={column}>{column}</th>
                     })}
                 </tr>
             </thead>
             <tbody>
                 <tr className={styles.tr}>
-                    {props.table.recentUpdates.map(updateInfo => {
-                        return <td className={styles.td} style={{backgroundColor: props.color}}>{updateInfo.grade}</td>
+                    {points.map(([column, value]) => {
+                        return <td className={styles.td} style={{backgroundColor: props.color}} key={value}>{value}</td>
                     })}
                 </tr>
             </tbody>

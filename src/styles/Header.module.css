@@ -7,6 +7,9 @@
     top: 0;
     left: 0;
     background-color: #0E0A35;
+
+    justify-content: space-between;
+    align-items: center;
 }
 
 .companyName {
@@ -14,8 +17,69 @@
     color: white;
     font-size: 35px;
     font-weight: 700;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
     margin-left: 20px;
+}
+
+.navigation {
+    margin-right: 130px;
+}
+
+.burgerButton {
+    text-align: left;
+    font-weight: 700;
+
+    color: white;
+    padding: 15px;
+    font-size: 2em;
+    cursor: pointer;
+}
+
+.navLinks {
+    background-color: #19163F;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    padding: 20px;
+    right: 55px;
+    top: 120%;
+    border-radius: 15px;
+    gap: 10px;
+}
+
+.button {
+    width: 170px;
+    height: 39px;
+    color: white;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 600;
+    display: flex;
+}
+
+
+.redButton {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 15px;
+
+    width: 170px;
+    height: 39px;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    background-color: #F16868;
+    color: #fff;
+
+    transition: background-color 0.3s;
+    &:hover {
+        background-color: #f15151;
+    }
 }

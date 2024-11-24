@@ -1,2 +1,2 @@
-export const UserIDCookie = "phiJournal.Auth"
-export const BackendServerAddress = "localhost:7777/"
+export const UserTokenCookie = "Prikol"
+export const BackendServerAddress = "http://localhost/api"

@@ -7,6 +7,7 @@
   font-family: 'Inter', sans-serif;
   white-space: nowrap;
   height: 100%;
+  width: 100%;
 }
 
 main {
@@ -17,12 +18,37 @@ main {
 
 body {
   height: 100%;
+  width: 100%;
   margin: 0;
   padding: 0;
   background-color: #eff0f9;
 }
 
-@media (max-width: 768px) {
+
+
+.p-password{
+  position: relative;
+
+  input {
+    width: 100%;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 10px;
+    background-color: #f0f0f0;
+    font-size: 20px;
+    color: #333;
+    outline: none;
+  }
+
+  .p-input-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+  }
+}
+
+@media (width <= 768px) {
   .main {
     width: 90%;
   }

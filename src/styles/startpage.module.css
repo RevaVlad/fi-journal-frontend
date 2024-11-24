@@ -1,0 +1,104 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+#root {
+    font-family: Inter, sans-serif;
+    background: url('../../public/background.svg') no-repeat center center fixed;
+    background-size: cover;
+    color: white;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+    height: 80vh;
+    gap: 20px;
+}
+
+
+.logo, .info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.logo {
+    max-width: 100%;
+    height: auto;
+    width: 50%;
+}
+
+
+.info h1 {
+    font-size: calc(2rem + 1vw);
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.info p {
+    font-size: calc(1rem + 0.5vw);
+    line-height: 1.6;
+    margin-bottom: 10px;
+    max-width: 90%;
+    text-align: left;
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        gap: 32px;
+        height: auto;
+    }
+
+    .logo, .info {
+        width: 100%;
+        height: 50vh;
+    }
+
+    .logo {
+        width: 50%;
+    }
+
+    .info h1 {
+        font-size: calc(1.5rem + 1vw);
+    }
+
+    .info p {
+        font-size: calc(0.8rem + 0.5vw);
+    }
+}
+
+.header {
+    display: flex;
+    position: fixed;
+    width: 100vw;
+    height: max(8vh, 50px);
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #0E0A35;
+}
+
+.companyName {
+    text-align: left;
+    color: white;
+    font-size: 35px;
+    font-weight: 700;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: 20px;
+}
