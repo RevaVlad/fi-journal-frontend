@@ -1,8 +1,8 @@
-import shared from '../styles/shared.module.css'
-import styles from '../styles/Header.module.css'
+import shared from '../../styles/shared.module.css'
+import styles from '../../styles/Header.module.css'
 import React, {useState} from "react";
 import Cookies from "js-cookie";
-import {UserTokenCookie} from "./configuration";
+import {UserTokenCookie} from "../../configuration";
 
 export function Header(props) {
     return <div className={styles.header}>

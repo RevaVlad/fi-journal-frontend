@@ -1,3 +1,25 @@
+.signIn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    width: 377px;
+    height: 300px;
+    padding: 0;
+}
+
+.signUp {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    width: 377px;
+    height: 500px;
+    padding: 0;
+}
+
 .inputField {
     width: 100%;
     padding: 10px 15px;

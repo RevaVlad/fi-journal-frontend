@@ -1,10 +1,10 @@
-import styles from "../styles/startpage.module.css"
+import styles from "../../styles/StartPage.module.css"
 
 export function StartPage(props){
     return <div>
         <div className={styles.container}>
             <div className={styles.logo}>
-                <img src="../../public/logo.svg" alt="Логотип" className="logo"/>
+                <img src="../../../public/logo.svg" alt="Логотип" className="logo"/>
             </div>
             <div className={styles.info}>
                 <h1>φ.Журнал</h1>

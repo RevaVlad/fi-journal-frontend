@@ -1,8 +1,12 @@
-// import {BackendServerAddress} from "./components/configuration";
-// TODO: change to fi-journal.ru
+import {BackendServerAddress} from "../configuration";
 
-const backendPrefix = "http://localhost:8080/api/";
-// const backendPrefix = "https://fi-journal.ru/api/";
+export class ResponseTypes {
+    static #_TEXT = 0;
+    static #_JSON = 1;
+
+    static get TEXT() { return this.#_TEXT; }
+    static get JSON() { return this.#_JSON; }
+}
 
 class FetchError extends Error {
     statusCode;
@@ -14,25 +18,32 @@ class FetchError extends Error {
 }
 
 export function createPatchFetcher(postfix) {
-    return fetch(backendPrefix + postfix, {
+    console.log("Patch", postfix);
+
+    const init = {
         method: 'PATCH',
-        credentials: "include"
-    })
+        credentials: "include",
+    }
+
+    return fetch(BackendServerAddress + postfix, init)
         .then((response) => {
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                throw new FetchError(`HTTP error! status: ${response.status}`, response.status);
             }
             return response.json();
         })
         .then((data) => {
-            return data;
+            return [data, 200];
         })
         .catch((error) => {
-            console.error('There was a problem with patch request', error);
+            console.error(`Problem with patch operation`, error);
+            return [undefined, error.statusCode]
         });
 }
 
-export function createGetFetcher(postfix) {
+export function createGetFetcher(postfix, signal = null) {
+    console.log("Get fetch", postfix)
+
     const init = {
         method: 'GET',
         credentials: 'include',
@@ -41,7 +52,10 @@ export function createGetFetcher(postfix) {
         },
     }
 
-    return fetch(backendPrefix + postfix, init)
+    if (signal)
+        init['signal'] = signal
+
+    return fetch(BackendServerAddress + postfix, init)
         .then((response) => {
             if (!response.ok) {
                 throw new FetchError("Problem with get request", response.status);
@@ -56,22 +70,35 @@ export function createGetFetcher(postfix) {
         });
 }
 
-export function createPostFetcher(postfix, body, responseProcessor, credentials) {
+export function createPostFetcher(postfix, body, responseType, credentials) {
+    console.log("POST", postfix);
     const init = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
+        body: JSON.stringify(body)
     }
 
     if (credentials) init['credentials'] = 'include'
 
-    return fetch(backendPrefix + postfix, init)
+    return fetch(BackendServerAddress + postfix, init)
         .then((response) => {
             if (!response.ok) {
                 throw new FetchError(`HTTP error! status: ${response.status}`, response.status);
             }
-            return [responseProcessor(response), 200];
+
+            if (responseType === ResponseTypes.JSON)
+                return response.json()
+
+            if (responseType === ResponseTypes.TEXT){
+                return response.text()
+            }
+
+            throw new Error(`Unexpected argument: ${responseType}`);
+        })
+        .then((data) => {
+            return [data, 200]
         })
         .catch((error) => {
             console.error('Problem with fetch operation', error);
@@ -80,7 +107,8 @@ export function createPostFetcher(postfix, body, responseProcessor, credentials)
 }
 
 export function createDeleteFetcher(postfix, body) {
-    return fetch(backendPrefix + postfix, {
+    console.log("delete", postfix, body)
+    return fetch(BackendServerAddress + postfix, {
         method: 'DELETE',
         credentials: "include",
         headers: {

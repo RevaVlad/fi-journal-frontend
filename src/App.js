@@ -1,13 +1,12 @@
-import {Header, NotAuthenticatedHeader} from "./components/Header";
+import {Header, NotAuthenticatedHeader} from "./components/Shared/Header";
 import {BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import {Auth} from "./components/Auth";
 import {Student} from "./components/StudentView/Student";
-import {Profile} from "./components/Profile/Profile";
-import {UserTokenCookie} from "./components/configuration";
+import {UserProfile} from "./components/UserProfile/UserProfile";
+import {UserTokenCookie} from "./configuration";
 import Cookies from "js-cookie";
 import {useState} from "react";
-import {GroupAuthLink} from "./components/GroupAuthLink";
-// import {StartPage} from "./components/StartPage";
+import {SignIn} from "./components/Authentication/SignIn";
+import {SignUp} from "./components/Authentication/SignUp";
 
 
 function App() {
@@ -17,13 +16,14 @@ function App() {
     if (isAuthenticated) {
         return <main className="main">
             <Header/>
-            <BrowserRouter>
+            <BrowserRouter future={{
+                v7_startTransition: true,
+                v7_relativeSplatPath: true,
+            }}>
                 <Routes>
-                    <Route path="/" element={<ProtectedRoute isAuthenticated={isAuthenticated}>
-                        <Student/>
-                    </ProtectedRoute>} />
-                    <Route path="/profile" element={<Profile/>} />
-                    <Route path="/*" element={<GroupAuthLink/>} />
+                    <Route path="/" element={<Student/>}/>
+                    <Route path="/profile" element={<UserProfile/>} />
+                    <Route path="/*" element={<></>} />
                 </Routes>
             </BrowserRouter>
         </main>
@@ -31,13 +31,15 @@ function App() {
 
     return <main className="main">
         <NotAuthenticatedHeader/>
-        <BrowserRouter>
+        <BrowserRouter future={{
+            v7_startTransition: true,
+            v7_relativeSplatPath: true,
+        }}>
             <Routes>
-                <Route path="/" element={<ProtectedRoute isAuthenticated={isAuthenticated}>
-                    <Student/>
-                </ProtectedRoute>}/>
-                <Route path="/signin" element={<Auth setAuthenticated={setIsAuthenticated} islogin={true}/>} />
-                <Route path="/signup" element={<Auth setAuthenticated={setIsAuthenticated} islogin={false}/>} />
+                <Route path="/" element={<Student/>}/>
+                <Route path="/signin" element={<SignIn setAuthenticated={setIsAuthenticated}/>} />
+                <Route path="/signup" element={<SignUp/>} />
+                <Route path="/*" element={<></>} />
             </Routes>
         </BrowserRouter>
     </main>
