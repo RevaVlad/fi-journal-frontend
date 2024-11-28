@@ -1,8 +1,8 @@
 import {
     getGroupInfo,
     getTableInfo,
-    getUserInfo, getUserPointInTable
-} from "./backendRequests";
+    getUserInfoFetcher, getUserPointInTable
+} from "./fetcherTemplates";
 
 export class UserData {
     id;
@@ -16,18 +16,20 @@ export class UserData {
     constructor(data) {
         this.id = data['id'];
         this.email = data['email'];
+
         const fullname = data['name'].split(' ')
         this.surname = fullname[0]
         this.name = fullname[1]
+
         this.groupsIds = data['groupIds']
         this.groups = []
         this.isInitialized = false
     }
 
-    static async fromToken(){
-        const userInfo = await getUserInfo()
-        return new UserData(userInfo)
-    }
+    // static async fromToken(){
+    //     const userInfo = await getUserInfo()
+    //     return new UserData(userInfo)
+    // }
 
     async initializeGroupsInfo() {
         if (this.isInitialized) return
@@ -116,18 +118,18 @@ class Table {
     }
 }
 
-class UpdateInfo {
-    date;
-    column;
-    grade;
-
-    constructor(date, column, grade) {
-        this.date = date
-        this.column = column
-        this.grade = grade
-    }
-
-    compare(otherUpdate){
-        return otherUpdate.date - this.date
-    }
-}
+// class UpdateInfo {
+//     date;
+//     column;
+//     grade;
+//
+//     constructor(date, column, grade) {
+//         this.date = date
+//         this.column = column
+//         this.grade = grade
+//     }
+//
+//     compare(otherUpdate){
+//         return otherUpdate.date - this.date
+//     }
+// }

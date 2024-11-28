@@ -1,6 +1,8 @@
 import {MainContent} from "./MainContent";
 import {UserData} from "../../UserData";
 import {useEffect, useState} from "react";
+import ReactLoading from 'react-loading';
+import shared from "../../styles/shared.module.css"
 
 export function Student(){
     const [userData, setUserData] = useState(null);
@@ -20,7 +22,9 @@ export function Student(){
     })
 
     if (!userData){
-        return <></>
+        return <div className={shared.centerOfScreen} style={{height: "100%", width: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}>
+            <ReactLoading type={"spin"} color={"#9c88ff"} height={'5%'} width={'5%'} />
+        </div>
     }
 
     return <>

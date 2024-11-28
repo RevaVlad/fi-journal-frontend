@@ -22,3 +22,21 @@
     text-decoration: underline;
     cursor: pointer;
 }
+
+.redAlert {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 15px;
+
+    padding: 10px 30px;
+
+    font-size: 15px;
+    font-weight: 400;
+
+    background-color: #F16868;
+    color: #fff;
+}

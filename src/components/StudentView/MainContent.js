@@ -6,6 +6,7 @@ import {getSubjectColor} from "../../utils";
 import styles from "../../styles/MainContent.module.css";
 import {useMediaQuery} from "react-responsive";
 import {Link} from "react-router-dom";
+import ReactLoading from "react-loading";
 
 export function MainContent(props) {
     const [searchItem, setSearchItem] = useState("");
@@ -25,7 +26,7 @@ export function MainContent(props) {
 }
 
 function GroupWithFilteredTables(props) {
-    const [tables, _] = useState(props.group.tables);
+    const [tables, ] = useState(props.group.tables);
 
     const filteredTables = (props.searchTerm.length > 0) ?
         tables.filter(table => table.name.toLowerCase().includes(props.searchTerm.toLowerCase()))
@@ -78,7 +79,8 @@ function TableInfo(props){
         <span className={shared.importantLabel} style={{fontSize: "35px"}}>{props.name}</span>
         <Link to={props.tableLink} className={shared.buttonDefault + " h-[41px] w-[201px] mt-auto mb-0"}
               target="_blank" rel="noopener noreferrer">
-            Посмотреть</Link>
+            Посмотреть
+        </Link>
     </div>
 }
 
@@ -89,13 +91,17 @@ function Grades(props) {
         const temp = async () => {
             if (!table.isInitialized){
                 await table.initializeUserPoints(props.userId)
-                setPoints(table.points)
+                if (table.points)
+                    setPoints(table.points)
+                else
+                    table.isInitialized = false
             }
         }
 
         temp()
     })
 
+    console.log(points, "points")
     if (points.length === 0){
         return <PlaceHolder/>
     }
@@ -104,14 +110,14 @@ function Grades(props) {
         <table className={styles.table}>
             <thead>
                 <tr className={styles.tr}>
-                    {points.map(([column, value]) => {
+                    {points.map(([column, ]) => {
                         return <th className={styles.th} key={column}>{column}</th>
                     })}
                 </tr>
             </thead>
             <tbody>
                 <tr className={styles.tr}>
-                    {points.map(([column, value]) => {
+                    {points.map(([, value]) => {
                         return <td className={styles.td} style={{backgroundColor: props.color}} key={value}>{value}</td>
                     })}
                 </tr>
@@ -121,7 +127,7 @@ function Grades(props) {
 }
 
 function PlaceHolder(){
-    return <div className={shared.whiteContainer + " " + styles.tablePlaceHolder}>
-        Здесь пока ничего нет, но очень скоро появится
+    return <div style={{display: "flex", alignItems: "center", justifyContent: "center", height: "100%"}}>
+        <ReactLoading type={"spin"} color={"#9c88ff"} height={'5%'} width={'5%'} />
     </div>
 }

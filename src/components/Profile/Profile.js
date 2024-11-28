@@ -6,7 +6,8 @@ import {Link} from "react-router-dom";
 import {useMediaQuery} from "react-responsive";
 import Cookies from "js-cookie"
 import {UserTokenCookie} from "../configuration";
-import {login, patchUser} from "../../backendRequests";
+import {deleteUserFromGroup, patchUser} from "../../fetcherTemplates";
+import ReactLoading from "react-loading";
 
 
 export function Profile(){
@@ -25,7 +26,9 @@ export function Profile(){
     })
 
     if (!userData)
-        return <></>
+        return <div className={shared.centerOfScreen} style={{height: "100%", width: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}>
+            <ReactLoading type={"spin"} color={"#9c88ff"} height={'5%'} width={'5%'} />
+        </div>
 
     return <ProfileMainContent userData={userData}/>
 }
@@ -73,7 +76,7 @@ function ProfileHeader(props) {
         <div className={shared.horizontalContainer + " " + styles.headerButtonsContainer}>
             {//<button className={styles.button}>Сменить пароль</button>
             }
-            <Link className={styles.redButton} to={"/login"} onClick={logout}>Выйти</Link>
+            <Link className={styles.redButton} to={"/signin"} onClick={logout}>Выйти</Link>
         </div>
     </div>
 }
@@ -127,12 +130,17 @@ function UserGroups(props) {
 
 function GroupCard(props) {
     const group = props.group;
-    const link = "/api/" + props.userId + "/groups/" + group.id + "/remove";
+    const leaveGroup = async () => {
+        await deleteUserFromGroup(group.id, props.userId)
+        window.location.reload();
+    }
+
     return <div className={shared.whiteContainer + " " + styles.groupCard}>
         <span className={shared.importantLabel} style={{fontSize: "35px"}}>{group.name}</span>
-        <Link to={link} className={styles.redButton}
+        <button onClick={leaveGroup} className={styles.redButton}
               style={{height: "40px", width: "150px", marginTop: "auto", marginBottom: 0}}>
-            Выйти</Link>
+            Выйти
+        </button>
     </div>
 }
 
