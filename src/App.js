@@ -7,6 +7,7 @@ import Cookies from "js-cookie";
 import {useState} from "react";
 import {SignIn} from "./components/Authentication/SignIn";
 import {SignUp} from "./components/Authentication/SignUp";
+import {GroupRegisterLink} from "./components/GroupRegisterLink/GroupRegisterLink";
 
 
 function App() {
@@ -23,7 +24,7 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Student/>}/>
                     <Route path="/profile" element={<UserProfile setToken={setIsAuthenticated}/>} />
-                    <Route path="/*" element={<></>} />
+                    <Route path="/*" element={<GroupRegisterLink/>} />
                 </Routes>
             </BrowserRouter>
         </main>

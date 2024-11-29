@@ -18,7 +18,7 @@ export function RecentNotificationsContainer({userInfo}) {
     return <div className={shared.whiteContainer}>
         <span className={shared.importantLabel + " text-[30px]"}>Последние изменения</span>
         <div className="flex overflow-x-auto whitespace-nowrap gap-4 flex-row pt-0 pb-2.5">
-            {allRecentUpdates.slice(0, 10).map((updateInfo) => <RecentNotification updateInfo={updateInfo}/>)}
+            {allRecentUpdates.slice(0, 10).map((updateInfo, i) => <RecentNotification key={i} updateInfo={updateInfo}/>)}
         </div>
     </div>
 }
