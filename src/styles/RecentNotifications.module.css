@@ -21,6 +21,10 @@
     font-weight: 700;
     color: #ffffff;
     background-color: #B586FA;
+    width: fit-content;
+    min-width: 80px;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 /*

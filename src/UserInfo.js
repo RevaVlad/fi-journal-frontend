@@ -48,18 +48,22 @@ export class TableInfo {
     }
 }
 
-// class UpdateInfo {
-//     date;
-//     column;
-//     grade;
-//
-//     constructor(date, column, grade) {
-//         this.date = date
-//         this.column = column
-//         this.grade = grade
-//     }
-//
-//     compare(otherUpdate){
-//         return otherUpdate.date - this.date
-//     }
-// }
+export class UpdateInfo {
+    date;
+    column;
+    grade;
+    tableId;
+    tableName;
+
+    constructor(date, column, grade, tableId, tableName) {
+        this.date = date
+        this.column = column
+        this.grade = grade
+        this.tableId = tableId
+        this.tableName = tableName
+    }
+
+    compare(otherUpdate){
+        return otherUpdate.date - this.date
+    }
+}

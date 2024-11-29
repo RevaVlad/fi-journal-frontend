@@ -5,16 +5,19 @@ import shared from "../../styles/shared.module.css";
 import styles from "../../styles/Profile.module.css";
 import {Link} from "react-router-dom";
 
-export function ProfileHeader(props) {
+export function ProfileHeader({userInfo, setToken}) {
     const isMobile = useMediaQuery({ query: `(width <= 560px)` });
-    const logout = () => Cookies.set(UserTokenCookie, "")
+    const logout = () => {
+        Cookies.set(UserTokenCookie, "")
+        setToken("")
+    }
 
 
     // <button className={styles.button}>Режим преподавателя</button>
     return <div className={shared.whiteContainer + " " + (isMobile ? shared.verticalContainer : shared.horizontalContainer)}
                 style={{justifyContent: "space-between", gap: "16px"}}>
         <span className={shared.importantLabel} style={{fontSize: "32px"}}>
-            {props.userInfo.name} {props.userInfo.surname}
+            {userInfo.name} {userInfo.surname}
         </span>
 
         <div className={shared.horizontalContainer + " " + styles.headerButtonsContainer}>

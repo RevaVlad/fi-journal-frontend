@@ -1,31 +1,35 @@
 import styles from '../../styles/RecentNotifications.module.css'
 import shared from '../../styles/shared.module.css'
 import {checkIfDatesEqual, getSubjectColor} from "../../utils";
+import {useUserRecentChanges} from "../../backendRequests/fetchHooks";
+import {Loading} from "../Shared/Loading";
 
-export function RecentNotificationsContainer(props) {
-    let allRecentUpdates = []
-    for (let group of props.userData.groups)
-        for (let table of group.tables)
-            for (let update of table.recentUpdates)
-                allRecentUpdates = allRecentUpdates.concat(<RecentNotification group={group.name}
-                                                                               subject={table.name}
-                                                                               updateInfo={update}/>)
+export function RecentNotificationsContainer({userInfo}) {
+    let [allRecentUpdates, status, isLoading] = useUserRecentChanges(userInfo.id)
+
+    if (isLoading) {
+        return <div style={{display: "flex", justifyContent: "center", alignContent: "center", margin: "20px"}}><Loading scale={0.05}/></div>
+    }
+
+    if (status !== 200 || allRecentUpdates.length < 1) {
+        return <></>
+    }
 
     return <div className={shared.whiteContainer}>
-        <span className={shared.importantLabel + " text-[30px]"}>Последнeе</span>
+        <span className={shared.importantLabel + " text-[30px]"}>Последние изменения</span>
         <div className="flex overflow-x-auto whitespace-nowrap gap-4 flex-row pt-0 pb-2.5">
-            {allRecentUpdates.slice(0, 10)}
+            {allRecentUpdates.slice(0, 10).map((updateInfo) => <RecentNotification updateInfo={updateInfo}/>)}
         </div>
     </div>
 }
 
-export function RecentNotification(props) {
+export function RecentNotification({updateInfo}) {
     let date;
-    if (checkIfDatesEqual(props.updateInfo.date, new Date())){
+    if (checkIfDatesEqual(updateInfo.date, new Date())){
         date = "Сегодня"
     }
     else{
-        date = props.updateInfo.date.toLocaleString('ru', {
+        date = updateInfo.date.toLocaleString('ru', {
             day: 'numeric',
             month: 'numeric',
             year: '2-digit'
@@ -35,10 +39,10 @@ export function RecentNotification(props) {
     return <div className={styles.card}>
         <span className={styles.date}>{date}</span>
         <span className={shared.squareAround + " " + styles.value}
-              style={{backgroundColor: getSubjectColor(props.group, props.subject)}}>{props.updateInfo.grade}</span>
+              style={{backgroundColor: getSubjectColor(updateInfo.tableId)}}>{updateInfo.grade}</span>
         <div className={shared.clarification}>
-            {props.subject}
-            <span className={shared.smallerClarification}>{props.updateInfo.column}</span>
+            {updateInfo.tableName}
+            <span className={shared.smallerClarification}>{updateInfo.column}</span>
         </div>
     </div>
 }

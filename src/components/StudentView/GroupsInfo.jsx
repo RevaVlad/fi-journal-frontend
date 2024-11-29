@@ -6,9 +6,9 @@ import {getSubjectColor} from "../../utils";
 import styles from "../../styles/MainContent.module.css";
 import {useMediaQuery} from "react-responsive";
 import {Link} from "react-router-dom";
-import ReactLoading from "react-loading";
 import {useGroupInfo, useTableInfo, useTablePoints} from "../../backendRequests/fetchHooks";
 import {Loading} from "../Shared/Loading";
+import {NoTablePointsMessage} from "../Shared/Messages";
 
 export function GroupsInfo({ userInfo }) {
     const [searchItem, setSearchItem] = useState("");
@@ -63,7 +63,7 @@ function Table({id, userId, groupName, searchFilter}) {
 
     const style = isFiltered ? {display: "none"} : {display: "flex"}
 
-    let subjectColor = getSubjectColor(groupName, info.name)
+    let subjectColor = getSubjectColor(info.id)
     return <div className={styles.subject} style={style}>
         <TableInfo name={info.name} tableLink={info.link}/>
         {!isMobile &&
@@ -94,7 +94,7 @@ function TablePoints({table, color, userId}) {
     }
 
     if (status !== 200 || points.length < 1){
-        return <PlaceHolder/>
+        return <NoTablePointsMessage/>
     }
 
     return <div className={styles.tableDiv}>
@@ -114,11 +114,5 @@ function TablePoints({table, color, userId}) {
                 </tr>
             </tbody>
         </table>
-    </div>
-}
-
-function PlaceHolder(){
-    return <div style={{display: "flex", alignItems: "center", justifyContent: "center", height: "100%"}}>
-        <ReactLoading type={"spin"} color={"#9c88ff"} height={'5%'} width={'5%'} />
     </div>
 }

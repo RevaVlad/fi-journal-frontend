@@ -16,7 +16,7 @@ export function SignInButton({dataFields, setAuthenticated, setErrors}) {
 
         console.log(userToken, statusCode)
         if (statusCode === 200) {
-            Cookies.set(UserTokenCookie, userToken, {expires: 1})
+            Cookies.set(UserTokenCookie, userToken, {expires: 0.5})
             setAuthenticated(true)
             navigate("/", {replace: true})
         }
@@ -54,7 +54,6 @@ export function SignUpButton({dataFields, setErrors}) {
             dataFields['password'])
 
         if (userId){
-            console.log("redirect -> login")
             navigate("/signin", {replace: true})
         }
         else if (code === 500) {

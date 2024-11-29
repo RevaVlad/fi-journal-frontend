@@ -3,14 +3,13 @@ export function checkIfDatesEqual(date1, date2){
         && date1.getDate() === date2.getDate();
 }
 
-export function getSubjectColor(groupName, subjectName){
-    let storageKey = groupName + ";" + subjectName
-    let colorFromStorage = localStorage.getItem(storageKey);
+export function getSubjectColor(tableId){
+    let colorFromStorage = localStorage.getItem(tableId);
     if (colorFromStorage)
         return colorFromStorage;
     else {
         let subjectColor = chooseSubjectColor()
-        localStorage.setItem(storageKey, subjectColor);
+        localStorage.setItem(tableId, subjectColor);
         return subjectColor;
     }
 }

@@ -68,6 +68,10 @@ export function createPatchUserFetcher(id, newEmail, newPassword) {
     return createPatchFetcher(postfix)
 }
 
+export function createGetUserRecentChangesFetcher(id){
+    return createGetFetcher("Users/" + id + "/recentDiffs")
+}
+
 export function createDeleteUserFromGroupFetcher(groupId, userId) {
     const postfix = 'Groups/' + groupId + "/users"
     const body = {

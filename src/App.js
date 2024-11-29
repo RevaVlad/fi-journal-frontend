@@ -22,7 +22,7 @@ function App() {
             }}>
                 <Routes>
                     <Route path="/" element={<Student/>}/>
-                    <Route path="/profile" element={<UserProfile/>} />
+                    <Route path="/profile" element={<UserProfile setToken={setIsAuthenticated}/>} />
                     <Route path="/*" element={<></>} />
                 </Routes>
             </BrowserRouter>
@@ -36,18 +36,12 @@ function App() {
             v7_relativeSplatPath: true,
         }}>
             <Routes>
-                <Route path="/" element={<Student/>}/>
                 <Route path="/signin" element={<SignIn setAuthenticated={setIsAuthenticated}/>} />
                 <Route path="/signup" element={<SignUp/>} />
-                <Route path="/*" element={<></>} />
+                <Route path="/*" element={<Navigate to={"/signin"}/>} />
             </Routes>
         </BrowserRouter>
     </main>
 }
-
-
-const ProtectedRoute = ({ children, isAuthenticated }) => {
-    return isAuthenticated ? children : <Navigate to="/signin"/>;
-};
 
 export default App;
