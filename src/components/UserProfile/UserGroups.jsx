@@ -3,22 +3,27 @@ import styles from "../../styles/Profile.module.css";
 import {useGroupInfo} from "../../backendRequests/fetchHooks";
 import {Loading} from "../Shared/Loading";
 import {createDeleteUserFromGroupFetcher} from "../../backendRequests/fetchers";
+import {NoGroupsInProfileMessage, NoGroupsMessage} from "../Shared/Messages";
 
 export function UserGroups({userInfo}) {
     return <>
         {// <AddGroupButton/>
         }
         <span className={shared.importantLabel} style={{fontSize: "40px"}}>Ваши группы</span>
-        <div className={styles.groupsContainer}>
-            {userInfo.groupsIds.map(groupId => <GroupCard groupId={groupId} userId={userInfo.id} key={groupId}/>)}
-        </div>
+
+        { userInfo.groupsIds.length > 0 ?
+            <div className={styles.groupsContainer}>
+                { userInfo.groupsIds.map(groupId => <GroupCard groupId={groupId} userId={userInfo.id} key={groupId}/>) }
+            </div>
+            : <NoGroupsInProfileMessage/>
+        }
     </>
 }
 
 function GroupCard({groupId, userId}) {
     const [group, status, isLoading] = useGroupInfo(groupId)
 
-    if (isLoading || status !== 200)
+    if (isLoading)
         return <Loading scale={0.05}/>
 
     const leaveGroup = async () => {

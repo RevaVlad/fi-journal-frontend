@@ -8,8 +8,7 @@ export function PersonalData({userInfo}) {
         email: userInfo.email,
     });
     const patchUserFunc = async () => {
-        // eslint-disable-next-line no-unused-vars
-        const [response, status] = await createPatchUserFetcher(userInfo.id, dataFields.email, userInfo.password)
+        const [, status] = await createPatchUserFetcher(userInfo.id, dataFields.email, userInfo.password)
 
 
 

@@ -13,6 +13,14 @@ export function NoGroupsMessage() {
     </div>
 }
 
+export function NoGroupsInProfileMessage() {
+    return <div className={shared.whiteContainer} style={{display: "flex", flexDirection: "column", margin: 0, height: "100%", width: "100%", alignContent: "center", gap: "20px"}}>
+        <div style={{fontSize: "25px", textWrap: "pretty", fontWeight: 400}}>
+            Данные о Ваших группах не найдены
+        </div>
+    </div>
+}
+
 export function FailedToLoadUserDataMessage() {
     return <div className={shared.whiteContainer} style={{display: "flex", flexDirection: "column", margin: 0, height: "100%", alignContent: "center", gap: "20px"}}>
         <div className={shared.importantLabel} style={{fontSize: "35px"}}>

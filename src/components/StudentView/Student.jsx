@@ -4,7 +4,6 @@ import {useUserInfo} from "../../backendRequests/fetchHooks";
 import {Loading} from "../Shared/Loading";
 import {FailedToLoadUserDataMessage, NoGroupsMessage} from "../Shared/Messages";
 import {RecentNotificationsContainer} from "./RecentNotification";
-import {useEffect, useState} from "react";
 
 export function Student(){
     const [userInfo, status, isLoading] = useUserInfo()
