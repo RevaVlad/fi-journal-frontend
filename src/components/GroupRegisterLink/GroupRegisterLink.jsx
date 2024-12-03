@@ -11,7 +11,7 @@ export function GroupRegisterLink () {
 
     useEffect(() => {
         const temp = async () => {
-            if (path.length !== 3 || path[1] !== "groupRegister") {
+            if (path.length !== 3 || path[1] !== "join") {
                 return <>404</>
             }
 

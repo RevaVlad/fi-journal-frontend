@@ -15,10 +15,21 @@ export function getSubjectColor(tableId){
 }
 
 const subjectColors = [
-    "#FE25A7",
-    "#B586FA",
+    "#F47858",
+    "#EC7091",
+    "#69C350",
+    "#49B4DC",
+    "#8F79EB",
     "#8680F8",
-    "#FBB4FE"
+    "#A40CFF",
+    "#2F76F5",
+    "#D219D1",
+    "#4682B4",
+    "#4B0082",
+    "#30B287",
+    "#E855E8",
+    "#C71585",
+    "#6A5ACD"
 ]
 
 function chooseSubjectColor() {
