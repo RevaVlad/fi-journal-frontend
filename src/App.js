@@ -8,41 +8,59 @@ import {useState} from "react";
 import {SignIn} from "./components/Authentication/SignIn";
 import {SignUp} from "./components/Authentication/SignUp";
 import {GroupRegisterLink} from "./components/GroupRegisterLink/GroupRegisterLink";
+import {SetTitle} from "./components/utils.js";
+import {PageNotFound} from "./components/PageNotFound/PageNotFound";
 
 
 function App() {
-    let userToken = Cookies.get(UserTokenCookie)
+    let userToken = Cookies.get(UserTokenCookie);
     const [isAuthenticated, setIsAuthenticated] = useState(userToken);
 
     if (isAuthenticated) {
-        return <main className="main">
-            <Header/>
-            <BrowserRouter future={{
-                v7_startTransition: true,
-                v7_relativeSplatPath: true,
-            }}>
+        return (
+            <main className="main">
+                <Header />
+                <BrowserRouter>
+                    <Routes>
+                        <Route path="/" element={
+                            <>
+                                <SetTitle title="Главная | φ.Журнал" />
+                                <Student />
+                            </>}/>
+                        <Route path="/profile" element={
+                            <>
+                                <SetTitle title="Профиль | φ.Журнал" />
+                                <UserProfile setToken={setIsAuthenticated} />
+                            </>}/>
+                        <Route path="/join/:id" element={<><GroupRegisterLink /></>}/>
+                        <Route path="/*" element={<><PageNotFound /></>}/>
+                    </Routes>
+                </BrowserRouter>
+            </main>
+        );
+    }
+
+    return (
+        <main className="main">
+            <NotAuthenticatedHeader />
+            <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={<Student/>}/>
-                    <Route path="/profile" element={<UserProfile setToken={setIsAuthenticated}/>} />
-                    <Route path="/*" element={<GroupRegisterLink/>} />
+                    <Route path="/signin" element={
+                        <>
+                            <SetTitle title="Вход | φ.Журнал" />
+                            <SignIn setAuthenticated={setIsAuthenticated} />
+                        </>}/>
+                    <Route
+                        path="/signup" element={
+                        <>
+                            <SetTitle title="Регистрация | φ.Журнал" />
+                            <SignUp />
+                        </>}/>
+                    <Route path="/*" element={<Navigate to={"/signin"} />}/>
                 </Routes>
             </BrowserRouter>
         </main>
-    }
-
-    return <main className="main">
-        <NotAuthenticatedHeader/>
-        <BrowserRouter future={{
-            v7_startTransition: true,
-            v7_relativeSplatPath: true,
-        }}>
-            <Routes>
-                <Route path="/signin" element={<SignIn setAuthenticated={setIsAuthenticated}/>} />
-                <Route path="/signup" element={<SignUp/>} />
-                <Route path="/*" element={<Navigate to={"/signin"}/>} />
-            </Routes>
-        </BrowserRouter>
-    </main>
+    );
 }
 
 export default App;

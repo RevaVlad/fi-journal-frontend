@@ -1,0 +1,26 @@
+.container {
+    text-align: center;
+    font-family: Inter, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.errorCode {
+    font-size: 300px;
+    font-weight: bold;
+    display: inline-block;
+    background: linear-gradient(to bottom right, #1c2857, #191823);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    white-space: nowrap;
+}
+
+.errorMessage {
+    font-size: 75px;
+    font-weight: lighter;
+    color: #000;
+}

@@ -1,31 +1,39 @@
-import {useEffect} from "react";
-import {createAddUserToGroupFetcher} from "../../backendRequests/fetchers";
-import {useUserInfo} from "../../backendRequests/fetchHooks";
-import {useNavigate} from "react-router-dom";
+import { useEffect } from "react";
+import { createAddUserToGroupFetcher } from "../../backendRequests/fetchers";
+import { useUserInfo } from "../../backendRequests/fetchHooks";
+import { useNavigate, useParams } from "react-router-dom";
 
-export function GroupRegisterLink () {
-    const currentUrl = window.location.pathname
-    const path = currentUrl.split('/')
-    const [userInfo, userInfoStatus, loading] = useUserInfo()
+export function GroupRegisterLink() {
+    const { id } = useParams();
+    const [userInfo, userInfoStatus, loading] = useUserInfo();
     const navigate = useNavigate();
 
     useEffect(() => {
-        const temp = async () => {
-            if (path.length !== 3 || path[1] !== "join") {
-                return <>404</>
+        const joinGroup = async () => {
+            if (!id) {
+                navigate("/404");
+                return;
             }
 
-            const possibleGroupId = path[2]
+            if (userInfoStatus === 200) {
+                const [, status] = await createAddUserToGroupFetcher(userInfo.id, id);
 
-            if (userInfoStatus === 200){
-                const [, status] = await createAddUserToGroupFetcher(userInfo.id, possibleGroupId)
-                if (status === 200)
-                    navigate("/")
-                else
-                    navigate("/kjjfdslkajfdksanf")
+                if (status === 200) {
+                    navigate("/");
+                } else {
+                    navigate("/404");
+                }
             }
+        };
+
+        if (!loading) {
+            joinGroup();
         }
+    }, [id, userInfo, userInfoStatus, loading, navigate]);
 
-        temp()
-    }, [currentUrl, loading])
+    return (
+        <div>
+            <h1>Присоединение к группе...</h1>
+        </div>
+    );
 }
