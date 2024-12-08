@@ -10,6 +10,7 @@ import {SignUp} from "./components/Authentication/SignUp";
 import {GroupRegisterLink} from "./components/GroupRegisterLink/GroupRegisterLink";
 import {SetTitle} from "./components/utils.js";
 import {PageNotFound} from "./components/PageNotFound/PageNotFound";
+import {StartPage} from "./components/StartPage/StartPage";
 
 
 function App() {
@@ -45,6 +46,11 @@ function App() {
             <NotAuthenticatedHeader />
             <BrowserRouter>
                 <Routes>
+                    <Route path="/" element={
+                        <>
+                            <SetTitle title="φ.Журнал" />
+                            <StartPage />
+                        </>}/>
                     <Route path="/signin" element={
                         <>
                             <SetTitle title="Вход | φ.Журнал" />
