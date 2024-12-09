@@ -3,6 +3,7 @@ import styles from '../../styles/Header.module.css'
 import React, {useState} from "react";
 import Cookies from "js-cookie";
 import {UserTokenCookie} from "../../configuration";
+import {isMobile} from "react-device-detect";
 
 export function Header(props) {
     return <div className={styles.header}>
@@ -32,9 +33,10 @@ function Authentication() {
 function NavigationButton() {
     const logout = () => Cookies.set(UserTokenCookie, "")
     const [open, setOpen] = useState(false);
-    return <div className={styles.navigation}>
+    return <div style={{marginRight: isMobile ? "20px" : "130px"}}>
         <button className={styles.burgerButton} onClick={() => setOpen(!open)}>☰</button>
-        <div className={styles.navLinks} style={{display: open ? 'flex' : 'none'}}>
+
+        <div className={styles.navLinks} style={{display: open ? 'flex' : 'none', right:  isMobile ? "20px" : "50px"}}>
             <a href="/" className={shared.buttonDefault + " " + styles.button}>
                 Оценки
             </a>

@@ -1,6 +1,5 @@
 .subject {
     display: flex;
-    flex-direction: row;
     gap: 16px;
     margin-bottom: 16px;
 }
@@ -93,4 +92,11 @@
     display: flex;
     align-items: center;
     overflow: auto;
+}
+
+.mobileSubjectLabel {
+    background-color: #ffffff;
+    border-radius: 15px;
+    width: 100%;
+    padding-left: 11px;
 }

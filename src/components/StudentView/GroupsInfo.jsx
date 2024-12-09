@@ -4,11 +4,11 @@ import shared from "../../styles/shared.module.css";
 import Collapsible from "react-collapsible";
 import {getSubjectColor} from "../../utils";
 import styles from "../../styles/MainContent.module.css";
-import {useMediaQuery} from "react-responsive";
 import {Link} from "react-router-dom";
 import {useGroupInfo, useTableInfo, useTablePoints} from "../../backendRequests/fetchHooks";
 import {Loading} from "../Shared/Loading";
 import {NoTablePointsMessage} from "../Shared/Messages";
+import {BrowserView, MobileView} from "react-device-detect";
 
 export function GroupsInfo({ userInfo }) {
     const [searchItem, setSearchItem] = useState("");
@@ -40,20 +40,52 @@ function GroupInfo({id, userId, searchFilter}) {
             </span>
             <Collapsible trigger="" open={open}>
                 {info.tableIds.map(
-                    tableId => (<Table id = {tableId}
-                                       key= {tableId}
-                                       userId={userId}
-                                       groupName={info.name}
-                                       searchFilter={searchFilter}/>
+                    tableId => (
+                        <>
+                            <MobileView>
+                                <TableMobile id = {tableId}
+                                           key= {tableId}
+                                           userId={userId}
+                                           groupName={info.name}
+                                           searchFilter={searchFilter}/>
+                            </MobileView>
+                            <BrowserView>
+                                <Table id = {tableId}
+                                             key= {tableId}
+                                             userId={userId}
+                                             groupName={info.name}
+                                             searchFilter={searchFilter}/>
+                            </BrowserView>
+                        </>
                     ))}
             </Collapsible>
         </div>}
     </>
 }
 
+function TableMobile({id, userId, groupName, searchFilter}){
+    const [info, status, isLoading] = useTableInfo(id)
+
+    if (isLoading || (status !== 200))
+        return <></>
+
+    const isFiltered = !info.name.toLowerCase().includes(searchFilter.toLowerCase())
+
+    const style = isFiltered ? {display: "none"} : {display: "flex", flexDirection: "column"}
+
+    let subjectColor = getSubjectColor(info.id)
+    return <div className={styles.subject} style={style}>
+        <TableInfoMobile name={info.name} tableLink={info.link}/>
+        {
+            <div className={styles.tableAndTableLabel}>
+                <TablePoints table={info} color={subjectColor} userId={userId} key={info.id}/>
+            </div>
+        }
+    </div>
+}
+
 function Table({id, userId, groupName, searchFilter}) {
     const [info, status, isLoading] = useTableInfo(id)
-    const isMobile = useMediaQuery({query: '(max-width: 500px)'})
 
 
     if (isLoading || (status !== 200))
@@ -61,12 +93,12 @@ function Table({id, userId, groupName, searchFilter}) {
 
     const isFiltered = !info.name.toLowerCase().includes(searchFilter.toLowerCase())
 
-    const style = isFiltered ? {display: "none"} : {display: "flex"}
+    const style = isFiltered ? {display: "flex", flexDirection: "column"} : {display: "flex"}
 
     let subjectColor = getSubjectColor(info.id)
     return <div className={styles.subject} style={style}>
         <TableInfo name={info.name} tableLink={info.link}/>
-        {!isMobile &&
+        {
             <div className={styles.tableAndTableLabel}>
                 <span className={shared.whiteContainer + " " + styles.tableLabel}>Ваши баллы:</span>
                 <TablePoints table={info} color={subjectColor} userId={userId} key={info.id}/>
@@ -80,6 +112,16 @@ function TableInfo(props){
     return <div className={shared.whiteContainer + " " + styles.subjectInfo}>
         <span className={shared.importantLabel} style={{fontSize: "35px"}}>{props.name}</span>
         <Link to={props.tableLink} className={shared.buttonDefault + " h-[41px] w-[201px] mt-auto mb-0"}
+              target="_blank" rel="noopener noreferrer">
+            Посмотреть
+        </Link>
+    </div>
+}
+
+function TableInfoMobile({name, tableLink}) {
+    return <div className={styles.subjectInfo} style={{flexDirection: "row", height: "initial", justifyContent: "space-between", gap: "8px"}}>
+        <div className={shared.importantLabel + " " + styles.mobileSubjectLabel} style={{fontSize: "35px"}}>{name}</div>
+        <Link to={tableLink} className={shared.buttonDefault + " h-[52.5px] w-[201px]"}
               target="_blank" rel="noopener noreferrer">
             Посмотреть
         </Link>

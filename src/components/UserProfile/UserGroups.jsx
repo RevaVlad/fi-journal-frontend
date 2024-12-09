@@ -3,7 +3,7 @@ import styles from "../../styles/Profile.module.css";
 import {useGroupInfo} from "../../backendRequests/fetchHooks";
 import {Loading} from "../Shared/Loading";
 import {createDeleteUserFromGroupFetcher} from "../../backendRequests/fetchers";
-import {NoGroupsInProfileMessage, NoGroupsMessage} from "../Shared/Messages";
+import {NoGroupsInProfileMessage} from "../Shared/Messages";
 
 export function UserGroups({userInfo}) {
     return <>
@@ -21,7 +21,7 @@ export function UserGroups({userInfo}) {
 }
 
 function GroupCard({groupId, userId}) {
-    const [group, status, isLoading] = useGroupInfo(groupId)
+    const [group, , isLoading] = useGroupInfo(groupId)
 
     if (isLoading)
         return <Loading scale={0.05}/>
