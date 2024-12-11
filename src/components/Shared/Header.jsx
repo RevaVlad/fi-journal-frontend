@@ -3,6 +3,7 @@ import styles from '../../styles/Header.module.css'
 import React, {useState} from "react";
 import Cookies from "js-cookie";
 import {UserTokenCookie} from "../../configuration";
+import {BrowserView, isMobile, MobileView} from "react-device-detect";
 
 export function Header(props) {
     return <div className={styles.header}>
@@ -14,7 +15,12 @@ export function Header(props) {
 export function NotAuthenticatedHeader() {
     return <div className={styles.header}>
         <OrganizationName/>
-        <Authentication/>
+        <BrowserView>
+            <Authentication/>
+        </BrowserView>
+        <MobileView>
+            <MobileAuthentication/>
+        </MobileView>
     </div>
 }
 
@@ -29,12 +35,22 @@ function Authentication() {
     </div>
 }
 
+function MobileAuthentication() {
+    const page = document.location.pathname
+    const isSignIn = page === '/signin'
+    return <div style={{display: "flex", flexDirection: "row", gap: "16px", marginRight: "10px"}}>
+        {!isSignIn && <div><a href="/signin" className={shared.buttonDefault + " " + styles.button} style={{width: "80px"}}>Войти</a></div>}
+        {isSignIn && <div><a href="/signup" className={shared.buttonDefault + " " + styles.button} style={{width: "150px", fontSize: "13px"}}>Зарегистрироваться</a></div>}
+    </div>
+}
+
 function NavigationButton() {
     const logout = () => Cookies.set(UserTokenCookie, "")
     const [open, setOpen] = useState(false);
-    return <div className={styles.navigation}>
+    return <div style={{marginRight: isMobile ? "20px" : "130px"}}>
         <button className={styles.burgerButton} onClick={() => setOpen(!open)}>☰</button>
-        <div className={styles.navLinks} style={{display: open ? 'flex' : 'none'}}>
+
+        <div className={styles.navLinks} style={{display: open ? 'flex' : 'none', right:  isMobile ? "20px" : "50px"}}>
             <a href="/" className={shared.buttonDefault + " " + styles.button}>
                 Оценки
             </a>
