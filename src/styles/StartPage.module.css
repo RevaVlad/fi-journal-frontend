@@ -1,18 +1,13 @@
-main {
-    width: 100%;
-}
-
 .pageContainer {
     font-family: Inter, sans-serif;
     background: url('../../public/background.svg') no-repeat center center fixed;
-    background-size: cover;
     color: white;
     height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: row;
-    position: fixed;
+    overflow: hidden;
 }
 
 .content {
@@ -20,14 +15,13 @@ main {
     flex-direction: row;
     width: 90%;
     height: 80vh;
-    gap: 20px;
+    gap: 120px;
 }
 
 .logoContainer, .textContent {
     flex: 1;
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
     border-radius: 10px;
     padding: 20px;
@@ -35,16 +29,17 @@ main {
 }
 
 .logoContainer {
-    max-width: 100%;
     height: auto;
+    align-items: center;
 }
 
 .textContent {
     font-size: calc(2rem + 1vw);
     margin-bottom: 20px;
     text-align: left;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
 }
 
 .title {
@@ -55,28 +50,29 @@ main {
 }
 
 .description {
+    display: flex;
+    width: 100%;
     font-size: calc(1rem + 0.5vw);
     line-height: 1.6;
-    margin-bottom: 10px;
-    word-wrap: break-word;
+    margin-bottom: 20px;
     overflow-wrap: break-word;
-    max-width: 100%;
+    text-wrap: wrap;
 }
 
 .notice {
+    display: flex;
+    width: 100%;
     font-size: calc(1rem + 0.5vw);
     line-height: 1.6;
     margin-bottom: 10px;
-    text-align: left;
-    word-wrap: break-word;
     overflow-wrap: break-word;
-    max-width: 100%;
+    text-wrap: wrap;
 }
 
 @media (max-width: 768px) {
     .content {
         flex-direction: column;
-        text-align: center;
+        align-items: center;
         gap: 20px;
     }
 
@@ -91,9 +87,11 @@ main {
 
     .description {
         font-size: 1rem;
+        text-align: center;
     }
 
     .notice {
         font-size: 0.9rem;
+        text-align: center;
     }
 }
