@@ -1,6 +1,6 @@
 import styles from "../../styles/StartPage.module.css";
 
-export function StartPage(props) {
+export function StartPage() {
     return (
         <div className={styles.pageContainer}>
             <div className={styles.content}>
