@@ -39,7 +39,7 @@ function GroupInfo({id, userId, searchFilter, tableRefs}) {
                 </button>
             </span>
             <Collapsible trigger="" open={open}>
-                {info.tableIds.reverse().map(
+                {info.tableIds.map(
                     tableId => (
                         <>
                             <MobileView>
@@ -94,7 +94,7 @@ function Table({id, userId, groupName, searchFilter, tableRefs}) {
         return <></>
 
     const isFiltered = !info.name.toLowerCase().includes(searchFilter.toLowerCase())
-    const style = isFiltered ? {display: "flex", flexDirection: "column"} : {display: "flex"}
+    const style = isFiltered ? {display: "none"} : {display: "flex", flexDirection: "row"}
 
     let subjectColor = getSubjectColor(info.id)
     return <div className={styles.subject} style={style}>
