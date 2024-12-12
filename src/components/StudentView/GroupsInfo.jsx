@@ -10,7 +10,7 @@ import {Loading} from "../Shared/Loading";
 import {NoTablePointsMessage} from "../Shared/Messages";
 import {BrowserView, MobileView} from "react-device-detect";
 
-export function GroupsInfo({ userInfo }) {
+export function GroupsInfo({ userInfo, tableRefs}) {
     const [searchItem, setSearchItem] = useState("");
 
     const handleInputChange = (e) => {
@@ -21,12 +21,12 @@ export function GroupsInfo({ userInfo }) {
     return <section className="main-content">
         <SearchBar searchItem={searchItem} handleInputChange={handleInputChange}/>
         {userInfo.groupsIds.map(id =>
-            <GroupInfo key={id} id={id} userId={userInfo.id} searchFilter={searchItem}/>
+            <GroupInfo tableRefs={tableRefs} key={id} id={id} userId={userInfo.id} searchFilter={searchItem}/>
         )}
     </section>
 }
 
-function GroupInfo({id, userId, searchFilter}) {
+function GroupInfo({id, userId, searchFilter, tableRefs}) {
     const [info, status, isLoading] = useGroupInfo(id)
     const [open, setOpen] = useState(true);
     const handleOpen = () => {setOpen(!open)}
@@ -39,22 +39,24 @@ function GroupInfo({id, userId, searchFilter}) {
                 </button>
             </span>
             <Collapsible trigger="" open={open}>
-                {info.tableIds.map(
+                {info.tableIds.reverse().map(
                     tableId => (
                         <>
                             <MobileView>
                                 <TableMobile id = {tableId}
-                                           key= {tableId}
+                                           tableRefs={tableRefs}
+                                           key={tableId}
                                            userId={userId}
                                            groupName={info.name}
                                            searchFilter={searchFilter}/>
                             </MobileView>
                             <BrowserView>
                                 <Table id = {tableId}
-                                             key= {tableId}
-                                             userId={userId}
-                                             groupName={info.name}
-                                             searchFilter={searchFilter}/>
+                                         tableRefs={tableRefs}
+                                         key= {tableId}
+                                         userId={userId}
+                                         groupName={info.name}
+                                         searchFilter={searchFilter}/>
                             </BrowserView>
                         </>
                     ))}
@@ -63,8 +65,8 @@ function GroupInfo({id, userId, searchFilter}) {
     </>
 }
 
-function TableMobile({id, userId, groupName, searchFilter}){
-    const [info, status, isLoading] = useTableInfo(id)
+function TableMobile({id, userId, groupName, searchFilter, tableRefs}){
+    const [info, status, isLoading] = useTableInfo(id, userId)
 
     if (isLoading || (status !== 200))
         return <></>
@@ -78,30 +80,29 @@ function TableMobile({id, userId, groupName, searchFilter}){
         <TableInfoMobile name={info.name} tableLink={info.link}/>
         {
             <div className={styles.tableAndTableLabel}>
-                <TablePoints table={info} color={subjectColor} userId={userId} key={info.id}/>
+                <TablePoints table={info} color={subjectColor} userId={userId} key={info.id} tableRefs={tableRefs}/>
             </div>
         }
     </div>
 }
 
-function Table({id, userId, groupName, searchFilter}) {
-    const [info, status, isLoading] = useTableInfo(id)
+function Table({id, userId, groupName, searchFilter, tableRefs}) {
+    const [info, status, isLoading] = useTableInfo(id, userId)
 
 
     if (isLoading || (status !== 200))
         return <></>
 
     const isFiltered = !info.name.toLowerCase().includes(searchFilter.toLowerCase())
-
     const style = isFiltered ? {display: "flex", flexDirection: "column"} : {display: "flex"}
 
     let subjectColor = getSubjectColor(info.id)
     return <div className={styles.subject} style={style}>
-        <TableInfo name={info.name} tableLink={info.link}/>
+        <TableInfo  name={info.name} tableLink={info.link}/>
         {
             <div className={styles.tableAndTableLabel}>
                 <span className={shared.whiteContainer + " " + styles.tableLabel}>Ваши баллы:</span>
-                <TablePoints table={info} color={subjectColor} userId={userId} key={info.id}/>
+                <TablePoints table={info} color={subjectColor} userId={userId} tableRefs={tableRefs}/>
             </div>
         }
     </div>
@@ -128,7 +129,7 @@ function TableInfoMobile({name, tableLink}) {
     </div>
 }
 
-function TablePoints({table, color, userId}) {
+function TablePoints({table, color, userId, tableRefs}) {
     const [points, status, isLoading] = useTablePoints(userId, table.id)
 
     if (isLoading) {
@@ -140,7 +141,9 @@ function TablePoints({table, color, userId}) {
     }
 
     return <div className={styles.tableDiv}>
-        <table className={styles.table}>
+        <table className={styles.table} ref={(ref) => {
+            tableRefs.current[table.id] = ref
+        }}>
             <thead>
                 <tr className={styles.tr}>
                     {points.map(([column, ]) => {
@@ -150,8 +153,8 @@ function TablePoints({table, color, userId}) {
             </thead>
             <tbody>
                 <tr className={styles.tr}>
-                    {points.map(([, value]) => {
-                        return <td className={styles.td} style={{backgroundColor: color}} key={value}>{value}</td>
+                    {points.map(([column, value]) => {
+                        return <td className={styles.td} style={{backgroundColor: color}} key={column + "" + value}>{value}</td>
                     })}
                 </tr>
             </tbody>

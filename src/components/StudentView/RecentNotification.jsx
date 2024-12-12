@@ -3,27 +3,33 @@ import shared from '../../styles/shared.module.css'
 import {checkIfDatesEqual, getSubjectColor} from "../../utils";
 import {useUserRecentChanges} from "../../backendRequests/fetchHooks";
 import {Loading} from "../Shared/Loading";
+import {useWaitFor} from "../utils";
 
-export function RecentNotificationsContainer({userInfo}) {
+export function RecentNotificationsContainer({userInfo, tableRefs}) {
     let [allRecentUpdates, status, isLoading] = useUserRecentChanges(userInfo.id)
+    const isCompleted = useWaitFor(() => {
+        if (tableRefs.current === undefined) return false;
+        return Object.keys(tableRefs.current).length > 0
+    }, 100)
 
     if (isLoading) {
         return <div style={{display: "flex", justifyContent: "center", alignContent: "center", margin: "20px"}}><Loading scale={0.05}/></div>
     }
 
-    if (status !== 200 || allRecentUpdates.length < 1) {
+    if (status !== 200 || allRecentUpdates.length < 1 || !isCompleted) {
         return <></>
     }
+
 
     return <div className={shared.whiteContainer}>
         <span className={shared.importantLabel + " text-[30px]"}>Последние изменения</span>
         <div className="flex overflow-x-auto whitespace-nowrap gap-4 flex-row pt-0 pb-2.5">
-            {allRecentUpdates.slice(0, 10).map((updateInfo, i) => <RecentNotification key={i} updateInfo={updateInfo}/>)}
+            {allRecentUpdates.slice(0, 10).map((updateInfo, i) => <RecentNotification key={i} updateInfo={updateInfo} tableRefs={tableRefs}/>)}
         </div>
     </div>
 }
 
-export function RecentNotification({updateInfo}) {
+export function RecentNotification({updateInfo, tableRefs}) {
     let date;
     if (checkIfDatesEqual(updateInfo.date, new Date())){
         date = "Сегодня"
@@ -38,11 +44,18 @@ export function RecentNotification({updateInfo}) {
 
     return <div className={styles.card}>
         <span className={styles.date}>{date}</span>
-        <span className={shared.squareAround + " " + styles.value}
-              style={{backgroundColor: getSubjectColor(updateInfo.tableId)}}>{updateInfo.grade}</span>
+        <Grade updateInfo={updateInfo} tableRef={tableRefs.current[updateInfo.tableId]}/>
         <div className={shared.clarification}>
             {updateInfo.tableName}
             <span className={shared.smallerClarification}>{updateInfo.column}</span>
         </div>
     </div>
+}
+
+export function Grade({updateInfo, tableRef}) {
+    const subjectColor = getSubjectColor(updateInfo.tableId)
+    return <button onClick={() => tableRef.scrollIntoView({behavior: 'smooth', block: 'start'})}
+                   className={shared.squareAround + " " + styles.value}
+          style={{backgroundColor: subjectColor}}>{updateInfo.grade}
+    </button>
 }

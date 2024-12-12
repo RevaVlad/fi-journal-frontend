@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import {useEffect, useState} from "react";
 
 export function SetTitle({ title }) {
     useEffect(() => {
@@ -6,4 +6,23 @@ export function SetTitle({ title }) {
     }, [title]);
 
     return null;
+}
+
+export function useWaitFor(condition, intervalMs) {
+    const [counter, setCounter] = useState(0);
+    const [isCompleted, setIsCompleted] = useState(false);
+
+    useEffect(() => {
+        if (isCompleted) return;
+
+        const intervalId = setInterval(() => {
+            if (condition())
+                setIsCompleted(true);
+            setCounter(counter + 1)
+        }, intervalMs);
+
+        return () => clearInterval(intervalId);
+    }, [isCompleted]);
+
+    return isCompleted
 }

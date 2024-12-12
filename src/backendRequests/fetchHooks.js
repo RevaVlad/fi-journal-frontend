@@ -44,9 +44,9 @@ export const useGroupInfo = (groupId) => {
     return useFetchedData(createGetGroupInfoFetcher, [groupId], dataProcessor)
 }
 
-export const useTableInfo = (tableId) => {
+export const useTableInfo = (tableId, userId) => {
     const dataProcessor = (data) => new TableInfo(data)
-    return  useFetchedData(createGetTableInfoFetcher, [tableId], dataProcessor)
+    return  useFetchedData(createGetTableInfoFetcher, [tableId, userId], dataProcessor)
 }
 
 export const useTablePoints = (userId, tableId) => {

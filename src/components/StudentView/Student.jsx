@@ -4,9 +4,11 @@ import {useUserInfo} from "../../backendRequests/fetchHooks";
 import {Loading} from "../Shared/Loading";
 import {FailedToLoadUserDataMessage, NoGroupsMessage} from "../Shared/Messages";
 import {RecentNotificationsContainer} from "./RecentNotification";
+import {useRef} from "react";
 
 export function Student(){
     const [userInfo, status, isLoading] = useUserInfo()
+    const tableRefs = useRef({})
 
     if (isLoading){
         return <div className={shared.centerOfScreen} style={{width: "100%", height: "100%"}}><Loading scale={0.05}/></div>
@@ -22,8 +24,9 @@ export function Student(){
         </div>
     }
 
+
     return <>
-        <RecentNotificationsContainer userInfo={userInfo}/>
-        <GroupsInfo userInfo={userInfo}/>
+        <RecentNotificationsContainer userInfo={userInfo} tableRefs={tableRefs}/>
+        <GroupsInfo tableRefs={tableRefs} userInfo={userInfo}/>
     </>
 }

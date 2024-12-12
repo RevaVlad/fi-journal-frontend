@@ -44,9 +44,10 @@ export function createAddUserToGroupFetcher(userId, groupId){
     return createPostFetcher(postfix, body, ResponseTypes.JSON, true)
 }
 
-export function createGetTableInfoFetcher(id){
-    const postfix = 'Tables/' + id
-    return createGetFetcher(postfix);
+export function createGetTableInfoFetcher(id, userId){
+    // TODO: change to postfix
+    const postfix = 'Tables/' + id + '/' + userId
+    return createGetFetcher('Tables/' + id);
 }
 
 export function createGetUserPointInTableFetcher(userId, tableId){
