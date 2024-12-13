@@ -5,21 +5,21 @@ import {useUserRecentChanges} from "../../backendRequests/fetchHooks";
 import {Loading} from "../Shared/Loading";
 import {useWaitFor} from "../utils";
 
-export function RecentNotificationsContainer({userInfo, tableRefs}) {
-    let [allRecentUpdates, status, isLoading] = useUserRecentChanges(userInfo.id)
+export function RecentNotificationsContainer({userInfo, tableRefs, tablesAreLoaded}) {
+    const [allRecentUpdates, status, isLoading] = useUserRecentChanges(userInfo.id)
     const isCompleted = useWaitFor(() => {
-        if (tableRefs.current === undefined) return false;
-        return Object.keys(tableRefs.current).length > 0
+        return tablesAreLoaded.current
     }, 100)
 
     if (isLoading) {
-        return <div style={{display: "flex", justifyContent: "center", alignContent: "center", margin: "20px"}}><Loading scale={0.05}/></div>
+        return <div style={{display: "flex", justifyContent: "center", alignContent: "center", margin: "20px"}}>
+            <Loading scale={0.05}/>
+        </div>
     }
 
     if (status !== 200 || allRecentUpdates.length < 1 || !isCompleted) {
         return <></>
     }
-
 
     return <div className={shared.whiteContainer}>
         <span className={shared.importantLabel + " text-[30px]"}>Последние изменения</span>
@@ -54,7 +54,12 @@ export function RecentNotification({updateInfo, tableRefs}) {
 
 export function Grade({updateInfo, tableRef}) {
     const subjectColor = getSubjectColor(updateInfo.tableId)
-    return <button onClick={() => tableRef.scrollIntoView({behavior: 'smooth', block: 'start'})}
+
+    const scroll = () => {
+        tableRef.scrollIntoView( { behavior: 'smooth', block: 'center' } );
+    }
+
+    return <button onClick={scroll}
                    className={shared.squareAround + " " + styles.value}
           style={{backgroundColor: subjectColor}}>{updateInfo.grade}
     </button>

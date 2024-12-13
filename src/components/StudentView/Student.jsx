@@ -9,6 +9,7 @@ import {useRef} from "react";
 export function Student(){
     const [userInfo, status, isLoading] = useUserInfo()
     const tableRefs = useRef({})
+    const tablesAreLoaded = useRef(false)
 
     if (isLoading){
         return <div className={shared.centerOfScreen} style={{width: "100%", height: "100%"}}><Loading scale={0.05}/></div>
@@ -26,7 +27,9 @@ export function Student(){
 
 
     return <>
-        <RecentNotificationsContainer userInfo={userInfo} tableRefs={tableRefs}/>
-        <GroupsInfo tableRefs={tableRefs} userInfo={userInfo}/>
+        <RecentNotificationsContainer userInfo={userInfo} tableRefs={tableRefs} tablesAreLoaded={tablesAreLoaded}/>
+        <GroupsInfo tableRefs={tableRefs} userInfo={userInfo} onLoad={() => {
+            tablesAreLoaded.current = true
+        }}/>
     </>
 }

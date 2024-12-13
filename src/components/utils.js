@@ -16,8 +16,7 @@ export function useWaitFor(condition, intervalMs) {
         if (isCompleted) return;
 
         const intervalId = setInterval(() => {
-            if (condition())
-                setIsCompleted(true);
+            setIsCompleted(condition());
             setCounter(counter + 1)
         }, intervalMs);
 

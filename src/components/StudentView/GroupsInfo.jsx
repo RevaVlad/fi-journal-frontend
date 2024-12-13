@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {SearchBar} from "./SearchBar";
 import shared from "../../styles/shared.module.css";
 import Collapsible from "react-collapsible";
@@ -10,7 +10,7 @@ import {Loading} from "../Shared/Loading";
 import {NoTablePointsMessage} from "../Shared/Messages";
 import {BrowserView, MobileView} from "react-device-detect";
 
-export function GroupsInfo({ userInfo, tableRefs}) {
+export function GroupsInfo({ userInfo, tableRefs, onLoad }) {
     const [searchItem, setSearchItem] = useState("");
 
     const handleInputChange = (e) => {
@@ -18,18 +18,34 @@ export function GroupsInfo({ userInfo, tableRefs}) {
         setSearchItem(searchTerm)
     }
 
+    let loadedGroups = 0
+    const incrementLoadedGroups = () => {
+        loadedGroups += 1
+        if (loadedGroups === userInfo.groupsIds.length){
+            onLoad()
+        }
+    }
+
     return <section className="main-content">
         <SearchBar searchItem={searchItem} handleInputChange={handleInputChange}/>
         {userInfo.groupsIds.map(id =>
-            <GroupInfo tableRefs={tableRefs} key={id} id={id} userId={userInfo.id} searchFilter={searchItem}/>
+            <GroupInfo tableRefs={tableRefs} key={id} id={id} userId={userInfo.id} searchFilter={searchItem} onLoad={incrementLoadedGroups}/>
         )}
     </section>
 }
 
-function GroupInfo({id, userId, searchFilter, tableRefs}) {
+function GroupInfo({id, userId, searchFilter, tableRefs, onLoad}) {
     const [info, status, isLoading] = useGroupInfo(id)
     const [open, setOpen] = useState(true);
     const handleOpen = () => {setOpen(!open)}
+
+    let loadedTables = 0
+    const incrementLoadedTables = () => {
+        loadedTables += 1
+        if (!isLoading && (status === 200) && loadedTables === info.tableIds.length){
+            onLoad()
+        }
+    }
 
     return <>
         {!isLoading && (status === 200) && <div>
@@ -48,15 +64,17 @@ function GroupInfo({id, userId, searchFilter, tableRefs}) {
                                            key={tableId}
                                            userId={userId}
                                            groupName={info.name}
-                                           searchFilter={searchFilter}/>
+                                           searchFilter={searchFilter}
+                                           onLoad={incrementLoadedTables}/>
                             </MobileView>
                             <BrowserView>
-                                <Table id = {tableId}
+                                <Table id={tableId}
                                          tableRefs={tableRefs}
                                          key= {tableId}
                                          userId={userId}
                                          groupName={info.name}
-                                         searchFilter={searchFilter}/>
+                                         searchFilter={searchFilter}
+                                         onLoad={incrementLoadedTables}/>
                             </BrowserView>
                         </>
                     ))}
@@ -65,7 +83,7 @@ function GroupInfo({id, userId, searchFilter, tableRefs}) {
     </>
 }
 
-function TableMobile({id, userId, groupName, searchFilter, tableRefs}){
+function TableMobile({id, userId, groupName, searchFilter, tableRefs, onLoad}){
     const [info, status, isLoading] = useTableInfo(id, userId)
 
     if (isLoading || (status !== 200))
@@ -80,13 +98,13 @@ function TableMobile({id, userId, groupName, searchFilter, tableRefs}){
         <TableInfoMobile name={info.name} tableLink={info.link}/>
         {
             <div className={styles.tableAndTableLabel}>
-                <TablePoints table={info} color={subjectColor} userId={userId} key={info.id} tableRefs={tableRefs}/>
+                <TablePoints table={info} color={subjectColor} userId={userId} key={info.id} tableRefs={tableRefs} onLoad={onLoad}/>
             </div>
         }
     </div>
 }
 
-function Table({id, userId, groupName, searchFilter, tableRefs}) {
+function Table({id, userId, groupName, searchFilter, tableRefs, onLoad}) {
     const [info, status, isLoading] = useTableInfo(id, userId)
 
 
@@ -102,7 +120,7 @@ function Table({id, userId, groupName, searchFilter, tableRefs}) {
         {
             <div className={styles.tableAndTableLabel}>
                 <span className={shared.whiteContainer + " " + styles.tableLabel}>Ваши баллы:</span>
-                <TablePoints table={info} color={subjectColor} userId={userId} tableRefs={tableRefs}/>
+                <TablePoints table={info} color={subjectColor} userId={userId} tableRefs={tableRefs} onLoad={onLoad}/>
             </div>
         }
     </div>
@@ -129,8 +147,14 @@ function TableInfoMobile({name, tableLink}) {
     </div>
 }
 
-function TablePoints({table, color, userId, tableRefs}) {
+function TablePoints({table, color, userId, tableRefs, onLoad}) {
     const [points, status, isLoading] = useTablePoints(userId, table.id)
+
+    useEffect(() => {
+        if (!isLoading){
+            onLoad()
+        }
+    }, [isLoading]);
 
     if (isLoading) {
         return <Loading scale={.05}/>
@@ -142,7 +166,9 @@ function TablePoints({table, color, userId, tableRefs}) {
 
     return <div className={styles.tableDiv}>
         <table className={styles.table} ref={(ref) => {
-            tableRefs.current[table.id] = ref
+            const copy = {...tableRefs.current}
+            copy[table.id] = ref
+            tableRefs.current = copy
         }}>
             <thead>
                 <tr className={styles.tr}>
