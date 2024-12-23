@@ -5,18 +5,22 @@ import Cookies from "js-cookie";
 import {UserTokenCookie} from "../../configuration";
 import {validateEmail, validateName, validatePassword} from "./validators";
 
-export function SignInButton({dataFields, setAuthenticated, setErrors}) {
+export function SignInButton({dataFields, setAuthenticated, setErrors, remember}) {
     const navigate = useNavigate()
 
     const verifyUser = async () => {
         console.log(dataFields['email'], dataFields['password'])
         let [userToken, statusCode] = await createSignInFetcher(
             dataFields['email'],
-            dataFields['password'])
+            dataFields['password'],
+            remember)
 
         console.log(userToken, statusCode)
         if (statusCode === 200) {
-            Cookies.set(UserTokenCookie, userToken, {expires: 0.5})
+            if (remember)
+                Cookies.set(UserTokenCookie, userToken, {expires: 30})
+            else
+                Cookies.set(UserTokenCookie, userToken)
             setAuthenticated(true)
             navigate("/", {replace: true})
         }

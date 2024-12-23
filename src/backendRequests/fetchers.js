@@ -17,12 +17,15 @@ export function createUserCreationFetcher(name, surname, email, password) {
     return createPostFetcher(postfix, body, ResponseTypes.JSON, false)
 }
 
-export function createSignInFetcher(email, password){
+export function createSignInFetcher(email, password, remember){
     const postfix = 'Users/login'
     const body = {
         'email': email,
         'password': password,
     }
+    if (remember)
+        body['remember'] = true
+
     return createPostFetcher(postfix, body, ResponseTypes.TEXT, false)
 }
 
@@ -45,9 +48,8 @@ export function createAddUserToGroupFetcher(userId, groupId){
 }
 
 export function createGetTableInfoFetcher(id, userId){
-    // TODO: change to postfix
-    const postfix = 'Tables/' + id + '/' + userId
-    return createGetFetcher('Tables/' + id);
+    const postfix = 'Tables/' + id + '/user/' + userId
+    return createGetFetcher(postfix);
 }
 
 export function createGetUserPointInTableFetcher(userId, tableId){

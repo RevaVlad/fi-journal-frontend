@@ -3,9 +3,10 @@ import Cookies from "js-cookie";
 import {UserTokenCookie} from "../../configuration";
 import shared from "../../styles/shared.module.css";
 import styles from "../../styles/Profile.module.css";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 export function ProfileHeader({userInfo, setToken}) {
+    const navigate = useNavigate()
     const isMobile = useMediaQuery({ query: `(width <= 560px)` });
     const logout = () => {
         Cookies.set(UserTokenCookie, "")
@@ -21,8 +22,7 @@ export function ProfileHeader({userInfo, setToken}) {
         </span>
 
         <div className={shared.horizontalContainer + " " + styles.headerButtonsContainer}>
-            {//<button className={styles.button}>Сменить пароль</button>
-            }
+            <button className={styles.button} onClick={() => navigate("/changePassword")}>Сменить пароль</button>
             <Link className={styles.redButton} to={"/signin"} onClick={logout}>Выйти</Link>
         </div>
     </div>

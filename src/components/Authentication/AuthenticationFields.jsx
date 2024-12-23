@@ -5,7 +5,7 @@ import {Password} from "primereact/password";
 export function AuthenticationFields ({dataFields, setDataFields, labels}) {
     return <div style={{display: "flex", flexDirection:"column", alignItems: "center", justifyContent: "center", gap: "16px"}}>
         {Object.entries(dataFields).map(([name, value]) => {
-            return name === "password" ?
+            return name.toLowerCase().includes("password") ?
                 <PasswordInputField name={name} value={value} label={labels[name]} setDataFields={setDataFields} key={name}/> :
                 <InputField name={name} value={value} label={labels[name]} setDataFields={setDataFields} key={name}/>
         })}

@@ -11,6 +11,7 @@ import {GroupRegisterLink} from "./components/GroupRegisterLink/GroupRegisterLin
 import {SetTitle} from "./components/utils.js";
 import {PageNotFound} from "./components/PageNotFound/PageNotFound";
 import {StartPage} from "./components/StartPage/StartPage";
+import {ChangePassword} from "./components/UserProfile/ChangePassword";
 
 
 function App() {
@@ -32,6 +33,11 @@ function App() {
                             <>
                                 <SetTitle title="Профиль | φ.Журнал" />
                                 <UserProfile setToken={setIsAuthenticated} />
+                            </>}/>
+                        <Route path="/changePassword" element={
+                            <>
+                                <SetTitle title="Профиль | Смена пароля" />
+                                <ChangePassword/>
                             </>}/>
                         <Route path="/join/:id" element={<><GroupRegisterLink /></>}/>
                         <Route path="/*" element={<><PageNotFound /></>}/>
