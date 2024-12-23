@@ -20,7 +20,7 @@ export function SignInButton({dataFields, setAuthenticated, setErrors, remember}
             if (remember)
                 Cookies.set(UserTokenCookie, userToken, {expires: 30})
             else
-                Cookies.set(UserTokenCookie, userToken)
+                Cookies.set(UserTokenCookie, userToken, {expires: 0.5})
             setAuthenticated(true)
             navigate("/", {replace: true})
         }
