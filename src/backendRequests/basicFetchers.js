@@ -1,4 +1,4 @@
-import {BackendServerAddress} from "../configuration";
+import {BackendServerAddress, verbose} from "../configuration";
 
 export class ResponseTypes {
     static #_TEXT = 0;
@@ -18,7 +18,7 @@ class FetchError extends Error {
 }
 
 export function createPatchFetcher(postfix) {
-    console.log("Patch", postfix);
+    if (verbose) console.log("Patch", postfix);
 
     const init = {
         method: 'PATCH',
@@ -36,13 +36,13 @@ export function createPatchFetcher(postfix) {
             return [data, 200];
         })
         .catch((error) => {
-            console.error(`Problem with patch operation`, error);
+            if (verbose) console.error(`Problem with patch operation`, error);
             return [undefined, error.statusCode]
         });
 }
 
 export function createGetFetcher(postfix, signal = null) {
-    console.log("Get fetch", postfix)
+    if (verbose) console.log("Get fetch", postfix)
 
     const init = {
         method: 'GET',
@@ -71,7 +71,7 @@ export function createGetFetcher(postfix, signal = null) {
 }
 
 export function createPostFetcher(postfix, body, responseType, credentials) {
-    console.log("POST", postfix);
+    if (verbose) console.log("POST", postfix);
     const init = {
         method: 'POST',
         headers: {
@@ -101,13 +101,13 @@ export function createPostFetcher(postfix, body, responseType, credentials) {
             return [data, 200]
         })
         .catch((error) => {
-            console.error('Problem with fetch operation', error);
+            if (verbose) console.error('Problem with fetch operation', error);
             return [undefined, error.statusCode]
         });
 }
 
 export function createDeleteFetcher(postfix, body) {
-    console.log("delete", postfix, body)
+    if (verbose) console.log("delete", postfix, body)
     return fetch(BackendServerAddress + postfix, {
         method: 'DELETE',
         credentials: "include",
@@ -126,7 +126,7 @@ export function createDeleteFetcher(postfix, body) {
             return [data, 200];
         })
         .catch((error) => {
-            console.error('There was a problem with delete operation', error);
+            if (verbose) console.error('There was a problem with delete operation', error);
             return [undefined, error.statusCode]
         });
 }

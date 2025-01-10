@@ -2,7 +2,7 @@ import shared from "../../styles/shared.module.css";
 import {useNavigate} from "react-router-dom";
 import {createSignInFetcher, createUserCreationFetcher} from "../../backendRequests/fetchers";
 import Cookies from "js-cookie";
-import {UserTokenCookie} from "../../configuration";
+import {UserTokenCookie, verbose} from "../../configuration";
 import {validateEmail, validateName, validatePassword} from "./validators";
 
 export function SignInButton({dataFields, setAuthenticated, setErrors, remember}) {
@@ -39,7 +39,7 @@ export function SignUpButton({dataFields, setErrors}) {
         const newErrors = []
         const fullname = validateName(dataFields['name'], dataFields['surname'])
         if (fullname) {newErrors.push(fullname)}
-        console.log(dataFields['email'])
+        if (verbose) console.log(dataFields['email'])
         const email = validateEmail(dataFields['email'])
         if (email) {newErrors.push(email)}
         const password = validatePassword(dataFields['password'])
@@ -47,7 +47,7 @@ export function SignUpButton({dataFields, setErrors}) {
 
         if (newErrors.length > 0){
             setErrors(newErrors)
-            console.log(newErrors)
+            if (verbose) console.log(newErrors)
             return
         }
 

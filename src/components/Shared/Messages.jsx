@@ -41,3 +41,22 @@ export function NoTablePointsMessage() {
         </div>
     </div>
 }
+
+export function EmailIsNotVerifiedMessage() {
+    return <div className={shared.whiteContainer} style={{
+        display: "flex",
+        flexDirection: "column",
+        margin: 0,
+        height: "100%",
+        alignContent: "center",
+        gap: "20px"
+    }}>
+        <div className={shared.importantLabel} style={{fontSize: "35px"}}>
+            Возникла ошибка
+        </div>
+        <div style={{fontSize: "25px", textWrap: "pretty", fontWeight: 400}}>
+            На Вашу почту отправлено письмо с подтверждением.
+            Можете изменить почту в <a href="/profile" className={shared.a}>профиле</a>
+        </div>
+    </div>
+}

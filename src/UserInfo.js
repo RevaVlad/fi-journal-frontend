@@ -14,6 +14,8 @@ export class UserInfo {
         this.name = fullname[1]
 
         this.groupsIds = data['groupIds']
+
+        this.isEmailVerified = data['isEmailConfirmed']
     }
 }
 

@@ -5,6 +5,7 @@ import {
     createPostFetcher,
     ResponseTypes
 } from "./basicFetchers";
+import {verbose} from "../configuration";
 
 export function createUserCreationFetcher(name, surname, email, password) {
     const postfix = 'Users/register'
@@ -82,4 +83,13 @@ export function createDeleteUserFromGroupFetcher(groupId, userId) {
     }
 
     return createDeleteFetcher(postfix, body)
+}
+
+export function createVerificationMessage(userId){
+    if (verbose) console.log("Отправляем сообщение на почту");
+    const postfix = "Users/" + userId + "/confirmEmail"
+    const body = {
+    }
+
+    return createPostFetcher(postfix, body, ResponseTypes.TEXT, true)
 }

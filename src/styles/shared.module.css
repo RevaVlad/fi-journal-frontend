@@ -73,3 +73,15 @@
     left: 50%;
     transform: translate(-50%, -50%);
 }
+
+.a:link {
+    color: #6900ff;
+}
+
+.a:visited {
+    color: #6900ff;
+}
+
+.a:active {
+    color: #5c95d1;
+}
