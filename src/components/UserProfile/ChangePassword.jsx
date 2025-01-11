@@ -17,7 +17,7 @@ const labels = {
 
 export function ChangePassword() {
     const [userInfo, status, isLoading] = useUserInfo()
-    const [alerts, setAlerts] = useState([]);
+    const [errors, setErrors] = useState([]);
     const [dataFields, setDataFields] = useState({
         newPassword: "",
         newPasswordConfirm: "",
@@ -35,9 +35,9 @@ export function ChangePassword() {
         <div style={{display: "flex", flexDirection:"column", alignItems: "center", justifyContent: "center", gap: "16px"}}>
             <div className={shared.whiteContainer + " " + styles.signIn}>
                 <AuthenticationFields dataFields={dataFields} setDataFields={setDataFields} labels={labels}/>
-                <Submit setAlerts={setAlerts} userId={userInfo.id} dataFields={dataFields}/>
+                <Submit setAlerts={setErrors} userId={userInfo.id} dataFields={dataFields}/>
             </div>
-            <Allerts alertMessages={alerts}/>
+            <Allerts errors={errors} messages={[]}/>
         </div>
     </div>
 }

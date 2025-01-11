@@ -74,14 +74,14 @@
     transform: translate(-50%, -50%);
 }
 
-.a:link {
-    color: #6900ff;
+.a {
+    color: #093f83;
+}
+
+.a:hover {
+    text-decoration: underline;
 }
 
 .a:visited {
     color: #6900ff;
-}
-
-.a:active {
-    color: #5c95d1;
 }

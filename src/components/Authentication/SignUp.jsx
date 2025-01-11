@@ -28,7 +28,7 @@ export function SignUp() {
                 <AuthenticationFields dataFields={dataFields} setDataFields={setDataFields} labels={labels}/>
                 <SignUpButton dataFields={dataFields} setErrors={setErrors} />
             </div>
-            <Allerts alertMessages={errors}/>
+            <Allerts errors={errors} messages={[]}/>
         </div>
     </div>
 }

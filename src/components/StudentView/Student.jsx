@@ -7,7 +7,7 @@ import {RecentNotificationsContainer} from "./RecentNotification";
 import {useEffect, useRef, useState} from "react";
 import {createVerificationMessage} from "../../backendRequests/fetchers";
 import {useCountdown} from "../utils";
-import {verbose} from "../../configuration";
+import {emailVerificationTimeout, verbose} from "../../configuration";
 import {Button} from "primereact/button";
 
 export function Student(){
@@ -48,7 +48,7 @@ export function Student(){
 }
 
 function SendEmailVerification({userId}){
-    const timeout = 60
+    const timeout = emailVerificationTimeout
     if (localStorage.getItem("emailTimeRemaining") == null)
         localStorage.setItem("emailTimeRemaining", 0);
 

@@ -1,14 +1,20 @@
 import styles from "../../styles/Auth.module.css";
 
-export function Allerts({alertMessages}) {
+export function Allerts({messages, errors}) {
     return <div style={{display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "16px"}}>
-        {alertMessages.map((errorText, i) => <RedAlert errorText={errorText} key={i}/>)}
+        {messages.map((message, i) => <BlueAlert text={message} key={i}/>)}
+        {errors.map((errorText, i) => <RedAlert text={errorText} key={i + messages.length}/>)}
     </div>
 }
 
-function RedAlert(props) {
+function RedAlert({text}) {
     return <div className={styles.redAlert}>
-        {props.errorText}
+        {text}
     </div>
 }
 
+function BlueAlert({text}) {
+    return <div className={styles.redAlert} style={{backgroundColor: "#9c88ff"}}>
+        {text}
+    </div>
+}

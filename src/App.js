@@ -12,6 +12,7 @@ import {SetTitle} from "./components/utils.js";
 import {PageNotFound} from "./components/PageNotFound/PageNotFound";
 import {StartPage} from "./components/StartPage/StartPage";
 import {ChangePassword} from "./components/UserProfile/ChangePassword";
+import {ResetPassword} from "./components/Authentication/ResetPassword/ResetPassword";
 
 
 function App() {
@@ -62,6 +63,12 @@ function App() {
                             <SetTitle title="Вход | φ.Журнал" />
                             <SignIn setAuthenticated={setIsAuthenticated} />
                         </>}/>
+                    <Route path="/signin/resetPassword" element={
+                        <>
+                            <SetTitle title="Восстановление пароля | φ.Журнал"/>
+                            <ResetPassword/>
+                        </>
+                    }/>
                     <Route
                         path="/signup" element={
                         <>

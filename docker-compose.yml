@@ -13,7 +13,7 @@ services:
       - db_data:/var/lib/postgresql/data
   api:
     container_name: Phi-Journal_api
-    image: grinik767/phi-journal:gamma1
+    image: grinik767/phi-journal:gamma2
     platform: linux/amd64
     ports:
       - "8080:8080"

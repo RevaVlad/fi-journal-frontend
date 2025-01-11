@@ -26,8 +26,9 @@ export function SignIn({setAuthenticated}) {
                 <AuthenticationFields dataFields={dataFields} setDataFields={setDataFields} labels={labels}/>
                 <RememberMe remember={remember} setRemember={setRemember}/>
                 <SignInButton dataFields={dataFields} setErrors={setErrors} setAuthenticated={setAuthenticated} remember={remember}/>
+                <ForgotPassword/>
             </div>
-            <Allerts alertMessages={errors}/>
+            <Allerts errors={errors} messages={[]}/>
         </div>
     </div>
 }
@@ -37,4 +38,8 @@ function RememberMe({remember, setRemember}){
         <Checkbox className={styles.checkbox} inputId="remember" checked={remember} onChange={() => setRemember(!remember)}/>
         <label htmlFor="remember">Запомнить меня</label>
     </div>
+}
+
+function ForgotPassword({remember, setRemember}){
+    return <a href={"signin/resetPassword"} className={shared.a}>Забыл пароль?</a>
 }

@@ -86,10 +86,17 @@ export function createDeleteUserFromGroupFetcher(groupId, userId) {
 }
 
 export function createVerificationMessage(userId){
-    if (verbose) console.log("Отправляем сообщение на почту");
+    if (verbose) console.log("Отправляем подтверждение почты");
     const postfix = "Users/" + userId + "/confirmEmail"
-    const body = {
-    }
+    const body = {}
 
     return createPostFetcher(postfix, body, ResponseTypes.TEXT, true)
+}
+
+export function createForgotPasswordMessage(email){
+    if (verbose) console.log("Отправляем новый пароль");
+    const postfix = "Users/changePassword/" + email
+    const body = {}
+
+    return createPostFetcher(postfix, body, ResponseTypes.TEXT, false)
 }
