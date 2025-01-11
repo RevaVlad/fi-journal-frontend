@@ -9,13 +9,13 @@ export function SignInButton({dataFields, setAuthenticated, setErrors, remember}
     const navigate = useNavigate()
 
     const verifyUser = async () => {
-        console.log(dataFields['email'], dataFields['password'])
+        if (verbose) console.log(dataFields['email'], dataFields['password'])
         let [userToken, statusCode] = await createSignInFetcher(
             dataFields['email'],
             dataFields['password'],
             remember)
 
-        console.log(userToken, statusCode)
+        if (verbose) console.log(userToken, statusCode)
         if (statusCode === 200) {
             if (remember)
                 Cookies.set(UserTokenCookie, userToken, {expires: 30})
