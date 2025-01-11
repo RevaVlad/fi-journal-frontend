@@ -15,7 +15,7 @@ export class UserInfo {
 
         this.groupsIds = data['groupIds']
 
-        this.isEmailVerified = false;
+        this.isEmailVerified = data['isEmailConfirmed']
     }
 }
 
