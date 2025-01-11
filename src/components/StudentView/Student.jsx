@@ -37,6 +37,8 @@ export function Student(){
         </div>
     }
 
+    localStorage.setItem("emailTimeRemaining", 0)
+
     return <>
         <RecentNotificationsContainer userInfo={userInfo} tableRefs={tableRefs} tablesAreLoaded={tablesAreLoaded}/>
         <GroupsInfo tableRefs={tableRefs} userInfo={userInfo} onLoad={() => {
