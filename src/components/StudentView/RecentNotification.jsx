@@ -3,7 +3,8 @@ import shared from '../../styles/shared.module.css'
 import {checkIfDatesEqual, getSubjectColor} from "../../utils";
 import {useUserRecentChanges} from "../../backendRequests/fetchHooks";
 import {Loading} from "../Shared/Loading";
-import {useWaitFor} from "../utils";
+import {truncateString, useWaitFor} from "../utils";
+import {columnNameLimit} from "../../configuration";
 
 export function RecentNotificationsContainer({userInfo, tableRefs, tablesAreLoaded}) {
     const [allRecentUpdates, status, isLoading] = useUserRecentChanges(userInfo.id)
@@ -30,6 +31,8 @@ export function RecentNotificationsContainer({userInfo, tableRefs, tablesAreLoad
 }
 
 export function RecentNotification({updateInfo, tableRefs}) {
+    const truncatedColumn = truncateString(updateInfo.column, columnNameLimit, "...")
+
     let date;
     if (checkIfDatesEqual(updateInfo.date, new Date())){
         date = "Сегодня"
@@ -47,7 +50,7 @@ export function RecentNotification({updateInfo, tableRefs}) {
         <Grade updateInfo={updateInfo} tableRef={tableRefs.current[updateInfo.tableId]}/>
         <div className={shared.clarification}>
             {updateInfo.tableName}
-            <span className={shared.smallerClarification}>{updateInfo.column}</span>
+            <span className={shared.smallerClarification}>{truncatedColumn}</span>
         </div>
     </div>
 }

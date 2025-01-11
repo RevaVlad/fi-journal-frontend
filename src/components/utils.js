@@ -50,3 +50,7 @@ export function useCountdown(initialTimeSeconds) {
 
     return [isFinished, timeRemaining, setTimeRemaining];
 }
+
+export function truncateString(string, length, end = "..."){
+    return (string.length > length) ? string.slice(0, length - end.length) + end : string;
+}

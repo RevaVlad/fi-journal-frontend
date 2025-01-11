@@ -2,6 +2,8 @@ import {useState} from "react";
 import {createPatchUserFetcher} from "../../backendRequests/fetchers";
 import shared from "../../styles/shared.module.css";
 import styles from "../../styles/Profile.module.css";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faCheck, faX} from "@fortawesome/free-solid-svg-icons";
 
 export function PersonalData({userInfo}) {
     const [dataFields, setDataFields] = useState({
@@ -9,12 +11,11 @@ export function PersonalData({userInfo}) {
     });
     const patchUserFunc = async () => {
         const [, status] = await createPatchUserFetcher(userInfo.id, dataFields.email, userInfo.password)
-
-
-
         if (status === 200)
             window.location.reload();
     }
+
+    const verifiedIcon = userInfo.isEmailVerified ? faCheck : faX;
 
     return <div>
         <span className={shared.importantLabel} style={{fontSize: "40px"}}>Мои данные</span>
@@ -23,7 +24,10 @@ export function PersonalData({userInfo}) {
             <div className={styles.inputsContainer}>
                 <DisabledDataField label="Имя" value={userInfo.name} type="text"/>
                 <DisabledDataField label="Фамилия" value={userInfo.surname} type="text"/>
-                <DataField label="Электронная почта" value={dataFields["email"]} type="email" name="email" setDataFields={setDataFields}/>
+                <div className={shared.horizontalContainer} style={{justifyContent: "space-between", gap: 0, width: "100%"}}>
+                    <DataField label="Электронная почта" value={dataFields["email"]} type="email" name="email" setDataFields={setDataFields}/>
+                    <FontAwesomeIcon icon={verifiedIcon} style={{position: "relative", marginBottom: 0, marginTop: "auto", padding: "15px"}}/>
+                </div>
             </div>
             <button className={styles.button} onClick={patchUserFunc}>Сохранить изменения</button>
         </div>
@@ -31,7 +35,7 @@ export function PersonalData({userInfo}) {
 }
 
 function DataField({label, value, type, setDataFields, name}){
-    return <div className={shared.verticalContainer} style={{gap: "8px"}}>
+    return <div className={shared.verticalContainer} style={{gap: "8px", width: "100%"}}>
         <label className={shared.clarification}>{label}</label>
         <input name={name} type={type} value={value} className={styles.inputField}
                onChange={(e) => {

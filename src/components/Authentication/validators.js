@@ -5,11 +5,8 @@ export function validateName(name, surname){
 }
 
 export function validateEmail(email){
-    if (email.startsWith("@")) {
+    if (email.startsWith("@") || email.length <= 3 || !email.includes("@")) {
         return "Некорректный адрес электронной почты"
-    }
-    if (!email.endsWith("@gmail.com")) {
-        return "Разрешается использовать только gmail.com"
     }
     return ""
 }
