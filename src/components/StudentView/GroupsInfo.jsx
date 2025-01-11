@@ -47,6 +47,10 @@ function GroupInfo({id, userId, searchFilter, tableRefs, onLoad}) {
         }
     }
 
+    if (!isLoading && (status === 200) && loadedTables === info.tableIds.length){
+        onLoad()
+    }
+
     return <>
         {!isLoading && (status === 200) && <div>
             <span className={shared.importantLabel} style={{fontSize: "35px", margin: 0}}>

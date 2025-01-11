@@ -18,7 +18,7 @@ export function SignIn({setAuthenticated}) {
         email: "",
         password: "",
     })
-    const [remember, setRemember] = useState({})
+    const [remember, setRemember] = useState(false)
 
     return <div className={shared.centerOfScreen} style={{display: "flex", flexDirection:"column", alignItems: "center", justifyContent: "center", gap: "16px"}}>
         <div style={{display: "flex", flexDirection:"column", alignItems: "center", justifyContent: "center", gap: "10x"}}>

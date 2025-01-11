@@ -48,7 +48,7 @@ export function Student(){
 function SendEmailVerification({userId}){
     const timeout = 60
     if (localStorage.getItem("emailTimeRemaining") == null)
-        localStorage.setItem("emailTimeRemaining", timeout);
+        localStorage.setItem("emailTimeRemaining", 0);
 
     const [isFinished, timeRemaining, setTimeRemaining] = useCountdown(+localStorage.getItem("emailTimeRemaining"));
 

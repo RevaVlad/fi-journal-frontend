@@ -68,7 +68,6 @@ export function SignUpButton({dataFields, setErrors}) {
         }
     }
 
-
     return <SubmitButton label={"Зарегистрироваться"} buttonAction={createUserOnClick}/>
 }
 
