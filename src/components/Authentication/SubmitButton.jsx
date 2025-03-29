@@ -4,16 +4,17 @@ import {createSignInFetcher, createUserCreationFetcher} from "../../backendReque
 import Cookies from "js-cookie";
 import {UserTokenCookie, verbose} from "../../configuration";
 import {validateEmail, validateName, validatePassword} from "./validators";
+import {useEffect} from "react";
 
 export function SignInButton({dataFields, setAuthenticated, setErrors, remember}) {
     const navigate = useNavigate()
 
     const verifyUser = async () => {
-        if (verbose) console.log(dataFields['email'], dataFields['password'])
-        let [userToken, statusCode] = await createSignInFetcher(
-            dataFields['email'],
-            dataFields['password'],
-            remember)
+        const email = dataFields['email'].trim()
+        const password = dataFields['password']
+
+        if (verbose) console.log(email, password)
+        let [userToken, statusCode] = await createSignInFetcher(email, password, remember)
 
         if (verbose) console.log(userToken, statusCode)
         if (statusCode === 200) {
@@ -23,8 +24,7 @@ export function SignInButton({dataFields, setAuthenticated, setErrors, remember}
                 Cookies.set(UserTokenCookie, userToken, {expires: 0.5})
             setAuthenticated(true)
             navigate("/", {replace: true})
-        }
-        else {
+        } else {
             setErrors(["Неверный email или пароль"])
         }
     }
@@ -36,34 +36,38 @@ export function SignUpButton({dataFields, setErrors}) {
     const navigate = useNavigate()
 
     const createUserOnClick = async () => {
-        const newErrors = []
-        const fullname = validateName(dataFields['name'], dataFields['surname'])
-        if (fullname) {newErrors.push(fullname)}
-        if (verbose) console.log(dataFields['email'])
-        const email = validateEmail(dataFields['email'])
-        if (email) {newErrors.push(email)}
-        const password = validatePassword(dataFields['password'])
-        if (password) {newErrors.push(password)}
+        const name = dataFields['name'].trim()
+        const surname = dataFields['surname'].trim()
+        const email = dataFields['email'].trim()
+        const password = dataFields['password']
 
-        if (newErrors.length > 0){
+        const newErrors = []
+        const nameError = validateName(name, surname)
+        if (nameError) {
+            newErrors.push(nameError)
+        }
+        const emailError = validateEmail(email)
+        if (emailError) {
+            newErrors.push(emailError)
+        }
+        const passwordError = validatePassword(password)
+        if (passwordError) {
+            newErrors.push(passwordError)
+        }
+
+        if (newErrors.length > 0) {
             setErrors(newErrors)
             if (verbose) console.log(newErrors)
             return
         }
 
-        const [userId, code] = await createUserCreationFetcher(
-            dataFields['name'],
-            dataFields['surname'],
-            dataFields['email'],
-            dataFields['password'])
+        const [userId, code] = await createUserCreationFetcher(name, surname, email, password)
 
-        if (userId){
+        if (userId) {
             navigate("/signin", {replace: true})
-        }
-        else if (code === 500) {
+        } else if (code === 500) {
             setErrors(["Этот email уже занят"])
-        }
-        else {
+        } else {
             setErrors(["Не удалось зарегистрировать пользователя"])
         }
     }
@@ -72,7 +76,23 @@ export function SignUpButton({dataFields, setErrors}) {
 }
 
 export function SubmitButton({label, buttonAction}) {
-    return <button className={shared.buttonDefault} style={{width: "200px", padding: "10px"}} onClick={buttonAction}>
-        {label}
-    </button>
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if (e.key === "Enter") {
+                buttonAction();
+            }
+        };
+        window.addEventListener("keydown", handleKeyDown);
+        return () => window.removeEventListener("keydown", handleKeyDown);
+    }, [buttonAction]);
+
+    return (
+        <button
+            className={shared.buttonDefault}
+            style={{width: "200px", padding: "10px"}}
+            onClick={buttonAction}
+        >
+            {label}
+        </button>
+    );
 }
